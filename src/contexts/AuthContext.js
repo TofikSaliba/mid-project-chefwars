@@ -13,9 +13,15 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+export const useSpinner = () => {
+  const { isSpinning, setIsSpinning } = useContext(AuthContext);
+  return { isSpinning, setIsSpinning };
+};
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserInfo, setCurrentUserInfo] = useState(null);
+  const [isSpinning, setIsSpinning] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -49,6 +55,8 @@ export function AuthProvider({ children }) {
     currentUserInfo,
     signInWithGoogle,
     signOutGoogle,
+    isSpinning,
+    setIsSpinning,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

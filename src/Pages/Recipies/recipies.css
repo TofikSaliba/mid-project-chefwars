@@ -1,0 +1,9 @@
+.recipiesCardContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  justify-content: center;
+  width: 100vw;
+  max-width: 1400px;
+  gap: 2rem;
+  padding: 3rem 2rem;
+}

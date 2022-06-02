@@ -1,20 +1,20 @@
+import { Redirect } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
-  const { signInWithGoogle, signOutGoogle } = useAuth();
+  const { signInWithGoogle, currentUser } = useAuth();
 
   const login = () => {
     signInWithGoogle();
   };
 
-  const logout = () => {
-    signOutGoogle();
-  };
+  if (currentUser) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>
       <button onClick={login}>Login with google</button>
-      <button onClick={logout}>Logout</button>
     </div>
   );
 }

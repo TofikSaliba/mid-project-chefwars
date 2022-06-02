@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import "./Header.css";
 
 function Header() {
-  const { currentUser, currentUserInfo } = useAuth();
+  const { currentUser, currentUserInfo, signOutGoogle } = useAuth();
   return (
     <div className="navBar">
       <div className="navLeft">
@@ -25,9 +25,14 @@ function Header() {
             Login
           </NavLink>
         ) : (
-          <NavLink to="/Profile" className="user">
-            Profile
-          </NavLink>
+          <>
+            <NavLink to="/Profile" className="user">
+              Profile
+            </NavLink>
+            <NavLink onClick={signOutGoogle} to="/" className="user">
+              logOut
+            </NavLink>
+          </>
         )}
       </div>
     </div>

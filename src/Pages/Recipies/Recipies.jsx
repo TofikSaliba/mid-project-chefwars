@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 import RecipeSearch from "../../Components/RecipeSearch/RecipeSearch";
 import { useSpinner } from "../../contexts/AuthContext";
-import axios from "axios";
 import API from "../../api/API";
 
 import "./recipies.css";
 
-function Recipies({ match }) {
+function Recipies({ match, history }) {
   const [fetchedRecipies, setFetchedRecipies] = useState(null);
   const { isSpinning, setIsSpinning } = useSpinner();
 
   useEffect(() => {
+    const searchFor = match.params.letter.length > 1 ? "s" : "f";
     const getData = async () => {
       try {
         setIsSpinning(true);
-        const { data } = await axios.get(
-          `https://www.themealdb.com/api/json/v1/1/search.php?f=${match.params.letter}`
+        const { data } = await API.get(
+          `/search.php?${searchFor}=${match.params.letter}`
         );
         setFetchedRecipies({
           results: data.meals,
@@ -31,9 +31,9 @@ function Recipies({ match }) {
     getData();
   }, []);
 
-  useEffect(() => {
-    console.log(fetchedRecipies);
-  }, [fetchedRecipies]);
+  // useEffect(() => {
+  //   console.log(fetchedRecipies);
+  // }, [fetchedRecipies]);
 
   const getRecipiesCards = () => {
     if (!fetchedRecipies) return;
@@ -71,7 +71,12 @@ function Recipies({ match }) {
 
   return (
     <>
-      <RecipeSearch setFetchedRecipies={setFetchedRecipies} />
+      <RecipeSearch
+        setFetchedRecipies={setFetchedRecipies}
+        history={history}
+        defaultSelect={match.params.letter[0]}
+        searchRadio={match.params.letter.length > 1}
+      />
       <div className="recipiesCardContainer">{getRecipiesCards()}</div>
     </>
   );

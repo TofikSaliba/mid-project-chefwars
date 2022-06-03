@@ -7,3 +7,10 @@
   gap: 4rem;
   padding: 3rem 2rem;
 }
+
+.nextPrevBtns {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}

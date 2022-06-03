@@ -8,12 +8,16 @@ function Header() {
     <div className="navBar">
       <div className="navLeft">
         <NavLink to="/">HomePage</NavLink>
-        <NavLink to="/Recipies">Recipies</NavLink>
+        <NavLink to="/Recipies/a">Recipies</NavLink>
         <NavLink to="/About">About</NavLink>
         <NavLink to="/Contact">Contact</NavLink>
         <button
           onClick={() => {
             console.log(currentUserInfo, currentUser);
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
           }}
         >
           print

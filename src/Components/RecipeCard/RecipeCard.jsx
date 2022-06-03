@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import "./recipeCard.css";
 
-function RecipeCard({ name, img, id, type }) {
+function RecipeCard({ name, img, id, type, letter }) {
   return (
     <div className="recipeCard">
       <div className="recipeName">{name}</div>
@@ -15,7 +15,7 @@ function RecipeCard({ name, img, id, type }) {
       </div>
 
       <div className="cardBtns">
-        <NavLink to={`/Recipies/${id}`}>
+        <NavLink to={`/Recipies/${letter}/${id}`}>
           <button>More detail</button>
         </NavLink>
       </div>

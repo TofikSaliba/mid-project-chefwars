@@ -14,15 +14,17 @@ function RecipeSearch({ setFetchedRecipies }) {
     if (isSpinning || !term) return;
     try {
       setIsSpinning(true);
-      const { data } = await API.get(
-        `?query=${term}&addRecipeInformation=true&number=20`
-      );
-      setFetchedRecipies({
-        results: data.results,
-        term: term,
-        total: data.totalResults,
-        offset: data.offset,
-      });
+      // const { data } = await API.get(
+      //   `?query=${term}&addRecipeInformation=true&number=20&offset=0`
+      // );
+      const { data } = await API.get(`?app_id=ded110cd&type=public&q=pasta`);
+      console.log(data);
+      // setFetchedRecipies({
+      //   results: data.results,
+      //   term: term,
+      //   total: data.totalResults,
+      //   offset: data.offset,
+      // });
     } catch (err) {
       console.log(err.message);
     } finally {

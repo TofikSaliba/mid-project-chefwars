@@ -19,12 +19,12 @@ function App() {
         <div className="mainContainer">
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route exact path="/Recipies" component={Recipies} />
+            <Route exact path="/Recipies/:letter" component={Recipies} />
             <Route exact path="/About" component={About} />
             <Route exact path="/Contact" component={Contact} />
             <Route exact path="/Profile" component={Profile} />
             <Route exact path="/Login" component={Login} />
-            <Route exact path="/Recipies/:id" component={RecipePage} />
+            <Route exact path="/Recipies/:letter/:id?" component={RecipePage} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

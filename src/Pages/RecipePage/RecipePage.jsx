@@ -123,7 +123,7 @@ function RecipePage({ match }) {
       <>
         <iframe
           width="80%"
-          height="100%"
+          height="50%"
           title={recipe.name}
           src={recipe.video && recipe.video.replace("watch?v=", "embed/")}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -176,7 +176,7 @@ function RecipePage({ match }) {
   };
 
   const vote = async (key, vote) => {
-    if (checkPerssion()) return;
+    if (cantVote || checkPerssion()) return;
     const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
     const newVoters = [...votes.voters];
     newVoters.push({ user: currentUser.id, voteIs: vote });
@@ -218,7 +218,7 @@ function RecipePage({ match }) {
               <div className="stickyRight">
                 <div>Vote to help others find whats good!</div>
                 <div className="thumbsCont">
-                  <div className="innerThumb">
+                  <div className="innerThumbBad">
                     {votes.bad}
                     <span
                       onClick={() => vote("bad", false)}
@@ -227,7 +227,7 @@ function RecipePage({ match }) {
                       &#128078;
                     </span>
                   </div>
-                  <div className="innerThumb">
+                  <div className="innerThumbGood">
                     {votes.good}
                     <span onClick={() => vote("good", true)} className="voteUp">
                       &#128077;

@@ -128,9 +128,16 @@ h2 {
   justify-content: space-around;
 }
 
-.rightContainer .thumbsCont .innerThumb {
+.rightContainer .thumbsCont .innerThumbGood {
   display: flex;
   flex-direction: column;
+  color: green;
+}
+
+.rightContainer .thumbsCont .innerThumbBad {
+  display: flex;
+  flex-direction: column;
+  color: red;
 }
 
 .voteDown,

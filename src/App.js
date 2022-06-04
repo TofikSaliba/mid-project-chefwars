@@ -6,7 +6,7 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
-import RecipePage from "./Pages/RecipePage";
+import RecipePage from "./Pages/RecipePage/RecipePage";
 import NotFound from "./Pages/NotFound";
 
 import "./style.css";

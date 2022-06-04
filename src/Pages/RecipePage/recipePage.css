@@ -1,0 +1,38 @@
+.recipeContainer {
+  display: grid;
+  grid-template-columns: 3fr 6fr 2fr;
+  padding: 3rem;
+  max-width: 1400px;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.recipeContainer img {
+  width: 100%;
+}
+
+.recipeContainer .leftContainer img {
+  width: 80%;
+}
+
+.recipeContainer .leftContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.midContainer {
+  text-align: center;
+}
+
+.midContainer .instructions {
+  padding: 2rem;
+  height: 60%;
+}
+
+.midContainer h2 {
+  margin: 3rem 0;
+}
+
+.recipeContainer h2 {
+  text-align: center;
+}

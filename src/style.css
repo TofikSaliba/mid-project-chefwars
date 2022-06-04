@@ -30,7 +30,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 button {

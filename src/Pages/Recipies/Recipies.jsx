@@ -36,7 +36,7 @@ function Recipies({ match, history }) {
   // }, [fetchedRecipies]);
 
   const getRecipiesCards = () => {
-    if (!fetchedRecipies) return;
+    if (!fetchedRecipies || !fetchedRecipies.results) return;
     return fetchedRecipies.results.map((recipe) => {
       return (
         <RecipeCard
@@ -77,6 +77,9 @@ function Recipies({ match, history }) {
         defaultSelect={match.params.letter[0]}
         searchRadio={match.params.letter.length > 1}
       />
+      {fetchedRecipies && !fetchedRecipies.results && (
+        <div className="noRecipies">No Recipies Found</div>
+      )}
       <div className="recipiesCardContainer">{getRecipiesCards()}</div>
     </>
   );

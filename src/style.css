@@ -30,7 +30,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  /* overflow-x: hidden; */
+  font-size: clamp(1.4rem, 3vw, 2rem);
 }
 
 button {

@@ -1,12 +1,26 @@
 import { useEffect, useState } from "react";
 import { useSpinner } from "../../contexts/AuthContext";
 import API from "../../api/API";
+import { useAuth } from "../../contexts/AuthContext";
+import { db } from "../../services/firebase";
+import {
+  getDoc,
+  collection,
+  getDocs,
+  setDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 
 import "./recipePage.css";
 
 function RecipePage({ match }) {
   const [recipe, setRecipe] = useState({});
+  const [commentArea, setCommentArea] = useState("");
+  const { currentUser } = useAuth();
   const { isSpinning, setIsSpinning } = useSpinner();
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -34,7 +48,7 @@ function RecipePage({ match }) {
       img: meals.strMealThumb,
       video: meals.strYoutube,
       ingredients: getIngredients(meals),
-      instructions: meals.strInstructions.replace(/[\r][\n]/gi, ""),
+      instructions: meals.strInstructions.replace(/[\n]/gi, "\n\n"),
     });
   };
 
@@ -66,15 +80,17 @@ function RecipePage({ match }) {
         <img src={recipe.img} alt="sdf" />
         <div>{`${recipe.area}, ${recipe.category}`}</div>
         <h2>Ingredients</h2>
-        {recipe.ingredients &&
-          recipe.ingredients.map((ing) => {
-            return (
-              <div
-                key={ing.name + ing.measure}
-                className="ingredients"
-              >{`${ing.name}: ${ing.measure}`}</div>
-            );
-          })}
+        <div className="ingredients">
+          {recipe.ingredients &&
+            recipe.ingredients.map((ing) => {
+              return (
+                <div key={ing.name + ing.measure} className="ingredient">
+                  {`${ing.name}: `}
+                  <span>{ing.measure}</span>
+                </div>
+              );
+            })}
+        </div>
       </>
     );
   };
@@ -84,7 +100,7 @@ function RecipePage({ match }) {
       <>
         <iframe
           width="80%"
-          height="40%"
+          height="100%"
           title={recipe.name}
           src={recipe.video && recipe.video.replace("watch?v=", "embed/")}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -94,20 +110,89 @@ function RecipePage({ match }) {
     );
   };
 
+  useEffect(() => {
+    if (recipe.name) {
+      const getData = async () => {
+        try {
+          const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
+          const recipeData = await getDoc(recipeInterRef);
+          if (recipeData.exists()) {
+            setComments(recipeData.data().comments);
+          } else {
+            console.log("noComments");
+            setRecipeComments();
+          }
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+      getData();
+    }
+  }, [recipe]);
+
+  const setRecipeComments = async () => {
+    try {
+      await setDoc(doc(db, "recipieInteracts", recipe.id), {
+        comments: [],
+        voting: { good: 0, bad: 0, voters: [] },
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const getCommentsJSX = () => {
+    return comments.map((comment) => {
+      return (
+        <div key={comment.user}>
+          <div>{comment.user}</div>
+          <div>{comment.content}</div>
+        </div>
+      );
+    });
+  };
+
+  const addComment = () => {
+    console.log(commentArea);
+    setCommentArea("");
+  };
+
   return (
     <>
       {!isSpinning && (
-        <div className="recipeContainer">
-          <div className="leftContainer">{getRecipeMainData()}</div>
-          <div className="midContainer">
-            {getVidJSX()}
-            <h2>Instructions</h2>
-            <p className="instructions">{recipe.instructions}</p>
+        <>
+          <div className="recipeContainer">
+            <div className="leftContainer">{getRecipeMainData()}</div>
+            <div className="midContainer">
+              {getVidJSX()}
+              <h2>Instructions</h2>
+              <p className="instructions">{recipe.instructions}</p>
+            </div>
+            <div className="rightContainer">
+              <img src={recipe.img} alt="sdf" />
+            </div>
           </div>
-          <div className="rightContainer">
-            <img src={recipe.img} alt="sdf" />
+          <div className="comments">
+            <h2>Comment Section</h2>
+            {!currentUser && (
+              <div className="loginMsg">Login to be able to comment</div>
+            )}
+            {currentUser && (
+              <>
+                <textarea
+                  onChange={(e) => setCommentArea(e.target.value)}
+                  value={commentArea}
+                  name="comment"
+                  id="sendComment"
+                />
+                <button onClick={() => addComment()} type="submit">
+                  Comment!
+                </button>
+              </>
+            )}
+            {getCommentsJSX()}
           </div>
-        </div>
+        </>
       )}
     </>
   );

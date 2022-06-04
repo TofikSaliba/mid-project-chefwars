@@ -17,22 +17,66 @@
 .recipeContainer .leftContainer {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 5rem;
+}
+
+.ingredients {
+  line-height: 3rem;
+}
+
+.ingredients span {
+  font-weight: bold;
 }
 
 .midContainer {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.midContainer iframe {
+  min-height: 300px;
 }
 
 .midContainer .instructions {
   padding: 2rem;
-  height: 60%;
+  height: fit-content;
+  text-align: left;
+  white-space: pre-wrap;
 }
 
 .midContainer h2 {
   margin: 3rem 0;
 }
 
-.recipeContainer h2 {
+h2 {
   text-align: center;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3rem;
+  margin: 5rem 0;
+  padding: 0 2rem;
+}
+
+.comments textarea {
+  height: 100px;
+  width: 50%;
+  align-self: center;
+  padding: 1rem;
+}
+
+.comments button {
+  align-self: center;
+}
+
+.comments h2 {
+  align-self: center;
+}
+
+.loginMsg {
+  align-self: center;
 }

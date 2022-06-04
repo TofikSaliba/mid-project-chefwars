@@ -21,7 +21,6 @@ function RecipeSearch({
     if (isSpinning || (!selected && !term)) return;
     const search = searchType ? "s" : "f";
     const theTerm = searchType ? term : selected;
-    console.log(search);
     try {
       setIsSpinning(true);
       const { data } = await API.get(`/search.php?${search}=${theTerm}`);

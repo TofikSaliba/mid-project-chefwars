@@ -14,3 +14,9 @@
   gap: 2rem;
   margin-bottom: 3rem;
 }
+
+.noRecipies {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  text-align: center;
+  margin: 4rem;
+}

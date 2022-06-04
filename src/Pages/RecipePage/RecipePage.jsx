@@ -3,24 +3,19 @@ import { useSpinner } from "../../contexts/AuthContext";
 import API from "../../api/API";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/firebase";
-import {
-  getDoc,
-  collection,
-  getDocs,
-  setDoc,
-  doc,
-  updateDoc,
-  arrayUnion,
-} from "firebase/firestore";
+import { getDoc, setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import "./recipePage.css";
+import { NavLink } from "react-router-dom";
 
 function RecipePage({ match }) {
   const [recipe, setRecipe] = useState({});
   const [commentArea, setCommentArea] = useState("");
+  const [comments, setComments] = useState([]);
+  const [votes, setVotes] = useState({});
+  const [cantVote, setCantVote] = useState(false);
   const { currentUser } = useAuth();
   const { isSpinning, setIsSpinning } = useSpinner();
-  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -38,6 +33,38 @@ function RecipePage({ match }) {
     };
     getData();
   }, []);
+
+  useEffect(() => {
+    if (recipe.name) {
+      const getData = async () => {
+        try {
+          const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
+          const recipeData = await getDoc(recipeInterRef);
+          if (recipeData.exists()) {
+            setComments(recipeData.data().comments.reverse());
+            setVotes(recipeData.data().voting);
+          } else {
+            setRecipeComments();
+          }
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+      getData();
+    }
+  }, [recipe]);
+
+  const setRecipeComments = async () => {
+    try {
+      await setDoc(doc(db, "recipieInteracts", recipe.id), {
+        comments: [],
+        voting: { good: 0, bad: 0, voters: [] },
+      });
+      setVotes({ good: 0, bad: 0, voters: [] });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const setTheRecipeInfo = (meals) => {
     setRecipe({
@@ -68,10 +95,6 @@ function RecipePage({ match }) {
     }
     return resultArr;
   };
-
-  useEffect(() => {
-    console.log(recipe);
-  }, [recipe]);
 
   const getRecipeMainData = () => {
     return (
@@ -110,51 +133,74 @@ function RecipePage({ match }) {
     );
   };
 
-  useEffect(() => {
-    if (recipe.name) {
-      const getData = async () => {
-        try {
-          const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
-          const recipeData = await getDoc(recipeInterRef);
-          if (recipeData.exists()) {
-            setComments(recipeData.data().comments);
-          } else {
-            console.log("noComments");
-            setRecipeComments();
-          }
-        } catch (err) {
-          console.log(err.message);
-        }
-      };
-      getData();
-    }
-  }, [recipe]);
-
-  const setRecipeComments = async () => {
-    try {
-      await setDoc(doc(db, "recipieInteracts", recipe.id), {
-        comments: [],
-        voting: { good: 0, bad: 0, voters: [] },
-      });
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
   const getCommentsJSX = () => {
     return comments.map((comment) => {
       return (
-        <div key={comment.user}>
-          <div>{comment.user}</div>
-          <div>{comment.content}</div>
+        <div key={comment.userId + comment.content} className="singleComment">
+          <div className="leftComment">
+            <span>{comment.userName}</span>{" "}
+            <img src={comment.userImg} alt={comment.userName} />
+          </div>
+          <div className="rightComment">
+            <span className="time">{comment.time}</span>
+            <p>{comment.content}</p>
+          </div>
         </div>
       );
     });
   };
 
-  const addComment = () => {
-    console.log(commentArea);
+  const addComment = async () => {
+    if (!commentArea) return;
+    try {
+      const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
+      const newComment = {
+        content: commentArea,
+        userId: currentUser.id,
+        userImg: currentUser.img,
+        userName: currentUser.displayName,
+        time: new Date().toLocaleString(),
+      };
+      await updateDoc(recipeInterRef, {
+        comments: arrayUnion(newComment),
+      });
+      setComments((prev) => {
+        const old = [...prev];
+        old.unshift(newComment);
+        return old;
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
     setCommentArea("");
+  };
+
+  const vote = async (key, vote) => {
+    if (checkPerssion()) return;
+    const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
+    const newVoters = [...votes.voters];
+    newVoters.push({ user: currentUser.id, voteIs: vote });
+    const newVote = {
+      ...votes,
+      [key]: votes[key] + 1,
+      voters: newVoters,
+    };
+    await updateDoc(recipeInterRef, { voting: newVote });
+    setVotes(newVote);
+  };
+
+  const checkPerssion = () => {
+    const userVote = votes.voters.find((vote) => {
+      return vote.user === currentUser.id;
+    });
+    if (!userVote) {
+      return false;
+    }
+    setCantVote(true);
+    setTimeout(() => {
+      setCantVote(false);
+    }, 2500);
+    return true;
   };
 
   return (
@@ -169,13 +215,39 @@ function RecipePage({ match }) {
               <p className="instructions">{recipe.instructions}</p>
             </div>
             <div className="rightContainer">
-              <img src={recipe.img} alt="sdf" />
+              <div className="stickyRight">
+                <div>Vote to help others find whats good!</div>
+                <div className="thumbsCont">
+                  <div className="innerThumb">
+                    {votes.bad}
+                    <span
+                      onClick={() => vote("bad", false)}
+                      className="voteDown"
+                    >
+                      &#128078;
+                    </span>
+                  </div>
+                  <div className="innerThumb">
+                    {votes.good}
+                    <span onClick={() => vote("good", true)} className="voteUp">
+                      &#128077;
+                    </span>
+                  </div>
+                </div>
+                {cantVote && (
+                  <div className="alreadyVoted">
+                    You already voted for this recipe!
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <div className="comments">
             <h2>Comment Section</h2>
             {!currentUser && (
-              <div className="loginMsg">Login to be able to comment</div>
+              <div className="loginMsg">
+                <NavLink to="/Login">Login</NavLink> to be able to comment
+              </div>
             )}
             {currentUser && (
               <>

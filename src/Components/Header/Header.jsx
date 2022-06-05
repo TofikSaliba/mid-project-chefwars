@@ -11,7 +11,7 @@ function Header() {
     <>
       <div className="navBar">
         <div className="navLeft">
-          <NavLink to="/">HomePage</NavLink>
+          <NavLink to="/">Home</NavLink>
           <NavLink to="/Recipies/a">Recipies</NavLink>
           <NavLink to="/About">About</NavLink>
           <NavLink to="/Contact">Contact</NavLink>
@@ -50,7 +50,7 @@ function Header() {
       <div className={hamburgerMenu ? "hamburgerMenu active" : "hamburgerMenu"}>
         <ul onClick={() => setHamburgerMenu(false)} className="hamburgerList">
           <NavLink to="/">
-            <li>HomePage</li>
+            <li>Home</li>
           </NavLink>
           <NavLink to="/Recipies/a">
             <li>Recipies</li>
@@ -72,7 +72,7 @@ function Header() {
           ) : (
             <>
               <NavLink to="/EditProfile" className="user">
-                <li>Edit-P</li>
+                <li>EditProf</li>
               </NavLink>
               <NavLink to={`/Profile/${currentUser.id}`} className="user">
                 <li>Profile</li>

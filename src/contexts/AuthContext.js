@@ -7,6 +7,9 @@ import {
 } from "firebase/auth";
 import { auth } from "../services/firebase";
 
+import { db } from "../services/firebase";
+import { getDoc, setDoc, doc } from "firebase/firestore";
+
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -26,12 +29,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setCurrentUser({
-          id: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          img: user.photoURL,
-        });
+        checkUserExists(user);
       } else {
         setCurrentUser(null);
       }
@@ -39,6 +37,27 @@ export function AuthProvider({ children }) {
 
     return unsubscribe;
   }, []);
+
+  const checkUserExists = async (user) => {
+    try {
+      const userRef = doc(db, "users", user.uid);
+      const recipeData = await getDoc(userRef);
+      if (recipeData.exists()) {
+        setCurrentUser(recipeData.data());
+      } else {
+        const userObj = {
+          id: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          img: user.photoURL,
+        };
+        await setDoc(userRef, userObj);
+        setCurrentUser(userObj);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   const signInWithGoogle = async () => {
     try {

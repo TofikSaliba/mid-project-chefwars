@@ -36,6 +36,10 @@
     justify-content: space-around;
   }
 
+  .navBar a {
+    padding: 1rem;
+  }
+
   .navLeft,
   .navRight {
     flex-direction: column;

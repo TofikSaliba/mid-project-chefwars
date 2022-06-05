@@ -3,6 +3,7 @@
   grid-template-columns: 3fr 1fr;
   gap: 2rem;
   max-width: 1200px;
+  padding: 0 2rem;
 }
 
 .contactContainer h1 {
@@ -32,4 +33,11 @@
 
 .rightMessage {
   padding: 3rem;
+}
+
+@media (max-width: 700px) {
+  .contactContainer {
+    grid-template-columns: 1fr;
+    grid-row: 2fr 1fr;
+  }
 }

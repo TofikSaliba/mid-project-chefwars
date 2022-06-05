@@ -55,6 +55,7 @@
 }
 
 .hamburgerMenu.active {
+  display: none;
   left: 0;
   transition: all 0.5s ease;
 }
@@ -91,7 +92,8 @@
     display: none;
   }
 
-  .hamburgerIcon {
+  .hamburgerIcon,
+  .hamburgerMenu.active {
     display: block;
   }
 }

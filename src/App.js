@@ -5,9 +5,11 @@ import Recipies from "./Pages/Recipies/Recipies";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact/Contact";
 import Login from "./Pages/Login";
-import Profile from "./Pages/Profile";
+import Profile from "./Pages/Profile/Profile";
+import EditProfile from "./Pages/editProfile/EditProfile";
 import RecipePage from "./Pages/RecipePage/RecipePage";
 import NotFound from "./Pages/NotFound";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import { useHamburgerMenu } from "./contexts/AuthContext";
 
 import "./style.css";
@@ -23,9 +25,10 @@ function App() {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/Recipies/:letter" component={Recipies} />
-            <Route exact path="/About" component={About} />
+            <Route path="/About" component={About} />
             <Route exact path="/Contact" component={Contact} />
-            <Route exact path="/Profile" component={Profile} />
+            <Route exact path="/Profile/:id" component={Profile} />
+            <PrivateRoute exact path="/EditProfile" component={EditProfile} />
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Recipies/:letter/:id?" component={RecipePage} />
             <Route path="*" component={NotFound} />

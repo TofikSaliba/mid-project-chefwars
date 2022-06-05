@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   gap: 5rem;
+  grid-column: 1 / 2;
 }
 
 .ingredients {
@@ -89,6 +90,11 @@ h2 {
   font-size: clamp(1.3rem, 3vw, 1.8rem);
 }
 
+.singleComment .leftComment a {
+  text-decoration: none;
+  color: var(--clr-nav);
+}
+
 .singleComment .leftComment img {
   width: 70px;
   border-radius: 30%;
@@ -107,6 +113,11 @@ h2 {
   width: 100%;
   text-align: right;
   font-size: clamp(1.2rem, 3vw, 1.6rem);
+}
+
+.rightContainer {
+  grid-column: 3 / 4;
+  grid-row: 1 / 3;
 }
 
 .rightContainer .stickyRight {
@@ -177,23 +188,18 @@ h2 {
     grid-row: 2 / 3;
   }
 
-  .rightContainer .stickyRight {
-    grid-column: 1 / 2;
+  .rightContainer {
+    grid-column: 2 / 3;
     grid-row: 1 / 2;
   }
 }
 
 @media (max-width: 550px) {
   .recipeContainer {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-rows: 2fr 6fr 10fr;
-    gap: 0;
-  }
-
-  .recipeContainer .leftContainer {
-    grid-row: 2 / 3;
-    margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    justify-content: space-between;
   }
 
   .midContainer iframe {
@@ -203,14 +209,5 @@ h2 {
 
   .comments textarea {
     width: 80%;
-  }
-
-  .midContainer {
-    grid-row: 3 / 4;
-  }
-
-  .rightContainer .stickyRight {
-    grid-row: 1 / 2;
-    position: relative;
   }
 }

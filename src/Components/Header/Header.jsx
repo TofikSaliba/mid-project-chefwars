@@ -15,17 +15,6 @@ function Header() {
           <NavLink to="/Recipies/a">Recipies</NavLink>
           <NavLink to="/About">About</NavLink>
           <NavLink to="/Contact">Contact</NavLink>
-          <button
-            onClick={() => {
-              console.log(currentUserInfo, currentUser);
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
-            }}
-          >
-            print
-          </button>
         </div>
         <div className="navRight">
           {!currentUser ? (
@@ -34,7 +23,10 @@ function Header() {
             </NavLink>
           ) : (
             <>
-              <NavLink to="/Profile" className="user">
+              <NavLink to="/EditProfile" className="user">
+                Edit
+              </NavLink>
+              <NavLink to={`/Profile/${currentUser.id}`} className="user">
                 Profile
               </NavLink>
               <NavLink onClick={signOutGoogle} to="/" className="user">

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { useSpinner } from "../../contexts/AuthContext";
+import { NavLink } from "react-router-dom";
+import { useAuth, useSpinner } from "../../contexts/AuthContext";
 import API from "../../api/API";
-import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/firebase";
 import { getDoc, setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import "./recipePage.css";
-import { NavLink } from "react-router-dom";
 
 function RecipePage({ match }) {
   const [recipe, setRecipe] = useState({});
+  const [notFound, setNotFound] = useState(false);
   const [commentArea, setCommentArea] = useState("");
   const [comments, setComments] = useState([]);
   const [commentsSpinner, setCommentsSpinner] = useState(false);
@@ -27,6 +27,7 @@ function RecipePage({ match }) {
         } = await API.get(`/lookup.php?i=${match.params.id}`);
         setTheRecipeInfo(meals[0]);
       } catch (err) {
+        setNotFound(true);
         console.log(err.message);
       } finally {
         setIsSpinning(false);
@@ -139,7 +140,9 @@ function RecipePage({ match }) {
       return (
         <div key={comment.id} className="singleComment">
           <div className="leftComment">
-            <span>{comment.userName}</span>{" "}
+            <NavLink to={`/Profile/${comment.userId}`}>
+              <span>{comment.userName}</span>
+            </NavLink>
             <img src={comment.userImg} alt={comment.userName} />
           </div>
           <div className="rightComment">
@@ -231,17 +234,12 @@ function RecipePage({ match }) {
     setCommentArea(target.value);
   };
 
+  if (notFound) return <div>Recipe Not Found!</div>;
   return (
     <>
       {!isSpinning && (
         <>
           <div className="recipeContainer">
-            <div className="leftContainer">{getRecipeMainData()}</div>
-            <div className="midContainer">
-              {getVidJSX()}
-              <h2>Instructions</h2>
-              <p className="instructions">{recipe.instructions}</p>
-            </div>
             <div className="rightContainer">
               <div className="stickyRight">
                 <div>Vote to help others find whats good!</div>
@@ -280,6 +278,12 @@ function RecipePage({ match }) {
                   </div>
                 )}
               </div>
+            </div>
+            <div className="leftContainer">{getRecipeMainData()}</div>
+            <div className="midContainer">
+              {getVidJSX()}
+              <h2>Instructions</h2>
+              <p className="instructions">{recipe.instructions}</p>
             </div>
           </div>
           <div className="comments">

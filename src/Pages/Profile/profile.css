@@ -1,0 +1,16 @@
+.profileContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.UserInfo {
+  padding: 2rem;
+}
+
+.UserInfo h2 {
+  text-align: left;
+}
+
+.UserInfo img {
+  width: 300px;
+}

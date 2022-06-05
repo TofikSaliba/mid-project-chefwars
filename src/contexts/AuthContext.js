@@ -21,10 +21,16 @@ export const useSpinner = () => {
   return { isSpinning, setIsSpinning };
 };
 
+export const useHamburgerMenu = () => {
+  const { hamburgerMenu, setHamburgerMenu } = useContext(AuthContext);
+  return { hamburgerMenu, setHamburgerMenu };
+};
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserInfo, setCurrentUserInfo] = useState(null);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [hamburgerMenu, setHamburgerMenu] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -85,6 +91,8 @@ export function AuthProvider({ children }) {
     signOutGoogle,
     isSpinning,
     setIsSpinning,
+    hamburgerMenu,
+    setHamburgerMenu,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

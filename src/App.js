@@ -8,15 +8,18 @@ import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import RecipePage from "./Pages/RecipePage/RecipePage";
 import NotFound from "./Pages/NotFound";
+import { useHamburgerMenu } from "./contexts/AuthContext";
 
 import "./style.css";
 
 function App() {
+  const { setHamburgerMenu } = useHamburgerMenu();
+
   return (
     <>
       <Router>
         <Header />
-        <div className="mainContainer">
+        <div onClick={() => setHamburgerMenu(false)} className="mainContainer">
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/Recipies/:letter" component={Recipies} />

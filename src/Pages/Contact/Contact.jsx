@@ -15,21 +15,21 @@ function Contact() {
           onChange={(e) => setName(e.target.value)}
           value={name}
           type="text"
-          placeholder="Enter Name..."
+          placeholder="Name..."
         />
         <input
           id="email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
           type="email"
-          placeholder="Enter E-mail..."
+          placeholder="E-mail..."
         />
         <input
           id="title"
           onChange={(e) => setTitle(e.target.value)}
           value={title}
           type="text"
-          placeholder="Enter Subject..."
+          placeholder="Subject..."
         />
         <textarea
           value={message}

@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth, useHamburgerMenu } from "../../contexts/AuthContext";
 import "./Header.css";
+import { FaHamburger } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 
 function Header() {
-  const [hamburgerMenu, setHamburgerMenu] = useState(false);
+  const { hamburgerMenu, setHamburgerMenu } = useHamburgerMenu();
   const { currentUser, currentUserInfo, signOutGoogle } = useAuth();
   return (
     <>
@@ -46,29 +47,48 @@ function Header() {
       <div
         onClick={() => setHamburgerMenu((prev) => !prev)}
         className="hamburgerIcon"
-      ></div>
-      {hamburgerMenu && (
-        <div onClick={() => setHamburgerMenu(false)} className="hamburgerMenu">
-          <NavLink to="/">HomePage</NavLink>
-          <NavLink to="/Recipies/a">Recipies</NavLink>
-          <NavLink to="/About">About</NavLink>
-          <NavLink to="/Contact">Contact</NavLink>
+      >
+        {hamburgerMenu ? (
+          <AiOutlineClose className="theIconClose" />
+        ) : (
+          <FaHamburger className="theIcon" />
+        )}
+      </div>
+
+      <div className={hamburgerMenu ? "hamburgerMenu active" : "hamburgerMenu"}>
+        <ul onClick={() => setHamburgerMenu(false)} className="hamburgerList">
+          <NavLink to="/">
+            <li>HomePage</li>
+          </NavLink>
+          <NavLink to="/Recipies/a">
+            <li>Recipies</li>
+          </NavLink>
+
+          <NavLink to="/About">
+            <li>About</li>
+          </NavLink>
+
+          <NavLink to="/Contact">
+            {" "}
+            <li>Contact</li>
+          </NavLink>
+
           {!currentUser ? (
             <NavLink to="/Login" className="user">
-              Login
+              <li>Login</li>
             </NavLink>
           ) : (
             <>
               <NavLink to="/Profile" className="user">
-                Profile
+                <li>Profile</li>
               </NavLink>
               <NavLink onClick={signOutGoogle} to="/" className="user">
-                logOut
+                <li>logOut</li>
               </NavLink>
             </>
           )}
-        </div>
-      )}
+        </ul>
+      </div>
     </>
   );
 }

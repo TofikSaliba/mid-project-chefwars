@@ -227,7 +227,7 @@ function RecipePage({ match }) {
   };
 
   const handleTextArea = ({ target }) => {
-    if (target.value.length > 400) return;
+    if (target.value.length > 300) return;
     setCommentArea(target.value);
   };
 

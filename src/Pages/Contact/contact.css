@@ -29,13 +29,15 @@
   width: 100%;
   height: 250px;
   padding: 1rem;
+  border-radius: 10px;
 }
 
 .rightMessage {
   padding: 3rem;
+  text-align: center;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 750px) {
   .contactContainer {
     grid-template-columns: 1fr;
     grid-row: 2fr 1fr;

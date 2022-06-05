@@ -1,0 +1,35 @@
+.contactContainer {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+}
+
+.contactContainer h1 {
+  text-align: center;
+  margin: 2rem;
+}
+
+.contactContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contactContainer form input {
+  width: 100%;
+  height: 40px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.contactContainer form textarea {
+  width: 100%;
+  height: 250px;
+  padding: 1rem;
+}
+
+.rightMessage {
+  padding: 3rem;
+}

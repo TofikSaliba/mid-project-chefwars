@@ -3,7 +3,7 @@ import Header from "./Components/Header/Header";
 import HomePage from "./Pages/HomePage";
 import Recipies from "./Pages/Recipies/Recipies";
 import About from "./Pages/About";
-import Contact from "./Pages/Contact";
+import Contact from "./Pages/Contact/Contact";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import RecipePage from "./Pages/RecipePage/RecipePage";

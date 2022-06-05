@@ -14,10 +14,6 @@
   box-sizing: border-box;
 }
 
-.loginGoogle {
-  margin-top: 30rem;
-}
-
 #root {
   min-height: 100vh;
   display: flex;
@@ -155,5 +151,11 @@ button {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 800px) {
+  .mainContainer {
+    margin-top: 15rem;
   }
 }

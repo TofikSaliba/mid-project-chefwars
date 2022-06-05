@@ -137,7 +137,7 @@ function RecipePage({ match }) {
   const getCommentsJSX = () => {
     return comments.map((comment) => {
       return (
-        <div key={comment.userId + comment.content} className="singleComment">
+        <div key={comment.id} className="singleComment">
           <div className="leftComment">
             <span>{comment.userName}</span>{" "}
             <img src={comment.userImg} alt={comment.userName} />
@@ -145,10 +145,29 @@ function RecipePage({ match }) {
           <div className="rightComment">
             <span className="time">{comment.time}</span>
             <p>{comment.content}</p>
+            {currentUser && comment.userId === currentUser.id && (
+              <div className="deleteBtn">
+                <button onClick={() => deleteComment(comment.id)}>
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         </div>
       );
     });
+  };
+
+  const deleteComment = async (id) => {
+    const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
+    const recipeData = await getDoc(recipeInterRef);
+    const newComments = [...recipeData.data().comments].filter((comment) => {
+      return comment.id !== id;
+    });
+    await updateDoc(recipeInterRef, {
+      comments: newComments,
+    });
+    setComments(newComments.reverse());
   };
 
   const addComment = async () => {
@@ -162,15 +181,13 @@ function RecipePage({ match }) {
         userImg: currentUser.img,
         userName: currentUser.displayName,
         time: new Date().toLocaleString(),
+        id: (Math.random() * 999999999) | 0,
       };
       await updateDoc(recipeInterRef, {
         comments: arrayUnion(newComment),
       });
-      setComments((prev) => {
-        const old = [...prev];
-        old.unshift(newComment);
-        return old;
-      });
+      const recipeData = await getDoc(recipeInterRef);
+      setComments(recipeData.data().comments.reverse());
     } catch (err) {
       console.log(err.message);
     } finally {
@@ -182,11 +199,13 @@ function RecipePage({ match }) {
   const vote = async (key, vote) => {
     if (cantVote || checkPerssion()) return;
     const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
-    const newVoters = [...votes.voters];
+    const recipeData = await getDoc(recipeInterRef);
+    const fetchedVotes = recipeData.data().voting;
+    const newVoters = [...fetchedVotes.voters];
     newVoters.push({ user: currentUser.id, voteIs: vote });
     const newVote = {
-      ...votes,
-      [key]: votes[key] + 1,
+      ...fetchedVotes,
+      [key]: fetchedVotes[key] + 1,
       voters: newVoters,
     };
     await updateDoc(recipeInterRef, { voting: newVote });
@@ -205,6 +224,11 @@ function RecipePage({ match }) {
       setCantVote(false);
     }, 2500);
     return true;
+  };
+
+  const handleTextArea = ({ target }) => {
+    if (target.value.length > 400) return;
+    setCommentArea(target.value);
   };
 
   return (
@@ -268,7 +292,7 @@ function RecipePage({ match }) {
             {currentUser && (
               <>
                 <textarea
-                  onChange={(e) => setCommentArea(e.target.value)}
+                  onChange={handleTextArea}
                   value={commentArea}
                   name="comment"
                   id="sendComment"

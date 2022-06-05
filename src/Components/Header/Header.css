@@ -30,3 +30,15 @@
   background: rgb(226, 226, 178);
   color: #111;
 }
+
+@media (max-width: 670px) {
+  .navBar {
+    justify-content: space-around;
+  }
+
+  .navLeft,
+  .navRight {
+    flex-direction: column;
+    align-items: center;
+  }
+}

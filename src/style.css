@@ -5,6 +5,7 @@
   --clr-buttons: #4c191b;
   --clr-card2: #65524d;
   --clr-light: #e7ecef;
+  --clr-light2: rgb(235, 201, 110);
 }
 
 * {
@@ -39,6 +40,7 @@ button {
   border-radius: 10px;
   border: none;
   font-size: clamp(1.4rem, 3vw, 2rem);
+  background: var(--clr-light2);
 }
 
 /** --------- scroll ----------- */

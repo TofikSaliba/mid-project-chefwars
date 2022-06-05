@@ -12,6 +12,7 @@ function RecipePage({ match }) {
   const [recipe, setRecipe] = useState({});
   const [commentArea, setCommentArea] = useState("");
   const [comments, setComments] = useState([]);
+  const [commentsSpinner, setCommentsSpinner] = useState(false);
   const [votes, setVotes] = useState({});
   const [cantVote, setCantVote] = useState(false);
   const { currentUser } = useAuth();
@@ -152,6 +153,7 @@ function RecipePage({ match }) {
 
   const addComment = async () => {
     if (!commentArea) return;
+    setCommentsSpinner(true);
     try {
       const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
       const newComment = {
@@ -171,6 +173,8 @@ function RecipePage({ match }) {
       });
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setCommentsSpinner(false);
     }
     setCommentArea("");
   };
@@ -220,20 +224,32 @@ function RecipePage({ match }) {
                 <div className="thumbsCont">
                   <div className="innerThumbBad">
                     {votes.bad}
-                    <span
-                      onClick={() => vote("bad", false)}
-                      className="voteDown"
-                    >
-                      &#128078;
-                    </span>
+                    {currentUser && (
+                      <span
+                        onClick={() => vote("bad", false)}
+                        className="voteDown"
+                      >
+                        &#128078;
+                      </span>
+                    )}
                   </div>
                   <div className="innerThumbGood">
                     {votes.good}
-                    <span onClick={() => vote("good", true)} className="voteUp">
-                      &#128077;
-                    </span>
+                    {currentUser && (
+                      <span
+                        onClick={() => vote("good", true)}
+                        className="voteUp"
+                      >
+                        &#128077;
+                      </span>
+                    )}
                   </div>
                 </div>
+                {!currentUser && (
+                  <div>
+                    Must <NavLink to="/Login">login</NavLink> to vote
+                  </div>
+                )}
                 {cantVote && (
                   <div className="alreadyVoted">
                     You already voted for this recipe!
@@ -243,7 +259,7 @@ function RecipePage({ match }) {
             </div>
           </div>
           <div className="comments">
-            <h2>Comment Section</h2>
+            <h2>Comments Section</h2>
             {!currentUser && (
               <div className="loginMsg">
                 <NavLink to="/Login">Login</NavLink> to be able to comment
@@ -257,7 +273,11 @@ function RecipePage({ match }) {
                   name="comment"
                   id="sendComment"
                 />
-                <button onClick={() => addComment()} type="submit">
+                <button
+                  onClick={() => addComment()}
+                  type="submit"
+                  disabled={commentsSpinner}
+                >
                   Comment!
                 </button>
               </>

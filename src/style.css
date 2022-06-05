@@ -153,3 +153,9 @@ button {
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 550px) {
+  .mainContainer {
+    padding-top: 1rem;
+  }
+}

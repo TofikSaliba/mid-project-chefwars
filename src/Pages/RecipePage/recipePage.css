@@ -156,7 +156,7 @@ h2 {
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 4rem;
-    margin-top: 7rem;
+    padding-top: 0;
   }
 
   .recipeContainer .leftContainer img {

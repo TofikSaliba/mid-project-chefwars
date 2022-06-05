@@ -71,11 +71,11 @@ function Header() {
             </NavLink>
           ) : (
             <>
-              <NavLink to={`/Profile/${currentUser.id}`} className="user">
-                <li>Profile</li>
-              </NavLink>
               <NavLink to="/EditProfile" className="user">
                 <li>Edit-P</li>
+              </NavLink>
+              <NavLink to={`/Profile/${currentUser.id}`} className="user">
+                <li>Profile</li>
               </NavLink>
               <NavLink onClick={signOutGoogle} to="/" className="user">
                 <li>logOut</li>

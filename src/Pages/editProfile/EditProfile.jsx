@@ -5,6 +5,7 @@ import { db } from "../../services/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
 import "./editProfile.css";
+import { Redirect } from "react-router-dom";
 
 function EditProfile() {
   const [newName, setNewName] = useState("");
@@ -12,6 +13,7 @@ function EditProfile() {
   const [location, setLocation] = useState("");
   const [age, setAge] = useState("");
   const [userBio, setUserBio] = useState("");
+  const [redirect, setRedicrect] = useState(false);
   const { currentUser, setCurrentUser } = useAuth();
 
   useEffect(() => {
@@ -24,7 +26,7 @@ function EditProfile() {
       setAge(currentUser.age);
     }
     if (currentUser.bio) {
-      setUserBio(currentUser.age);
+      setUserBio(currentUser.bio);
     }
   }, []);
 
@@ -41,10 +43,15 @@ function EditProfile() {
       const userRef = doc(db, "users", currentUser.id);
       await updateDoc(userRef, edits);
       setCurrentUser((prev) => ({ ...prev, ...edits }));
+      setRedicrect(true);
     } catch (err) {
       console.log(err.message);
     }
   };
+
+  if (redirect) {
+    return <Redirect to={`/Profile/${currentUser.id}`} />;
+  }
 
   return (
     <div className="editContainer">

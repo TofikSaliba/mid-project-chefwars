@@ -39,7 +39,7 @@ function Profile({ match }) {
         <img src={user.img} alt={user.displayName} />
         {currentUser.location && <div>Location: {currentUser.location}</div>}
         {currentUser.age && <div>Age: {currentUser.age}</div>}
-        {currentUser.bio && <p>{currentUser.bio}</p>}
+        {currentUser.bio && <p>Bio: {currentUser.bio}</p>}
       </div>
     );
   };

@@ -86,6 +86,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    setCurrentUser,
     currentUserInfo,
     signInWithGoogle,
     signOutGoogle,

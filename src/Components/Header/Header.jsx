@@ -75,7 +75,7 @@ function Header() {
                 <li>Profile</li>
               </NavLink>
               <NavLink to="/EditProfile" className="user">
-                <li>Profile</li>
+                <li>Edit-P</li>
               </NavLink>
               <NavLink onClick={signOutGoogle} to="/" className="user">
                 <li>logOut</li>

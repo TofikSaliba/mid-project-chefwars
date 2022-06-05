@@ -13,7 +13,7 @@ function Login() {
   }
 
   return (
-    <div>
+    <div className="loginGoogle">
       <button onClick={login}>Login with google</button>
     </div>
   );

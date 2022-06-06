@@ -20,20 +20,20 @@
   cursor: pointer;
 }
 
-form {
+.searchBar form {
   display: flex;
   align-items: center;
   gap: 2rem;
 }
 
-form input {
+.searchBar form input {
   height: 100%;
   padding: 0.3rem 1rem;
   border-radius: 10px;
   border: 1px solid #111;
 }
 
-form input:disabled {
+.searchBar form input:disabled {
   border: 1px solid #999;
   background: #eee;
 }
@@ -66,7 +66,7 @@ form input:disabled {
     gap: 0.3rem;
   }
 
-  form {
+  .searchBar form {
     flex-direction: column;
     gap: 1rem;
   }

@@ -4,6 +4,7 @@ import { db } from "../../services/firebase";
 import { getDoc, setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import "./profile.css";
+import { NavLink } from "react-router-dom";
 
 function Profile({ match }) {
   const [user, setUser] = useState(null);
@@ -46,7 +47,26 @@ function Profile({ match }) {
 
   if (notFound) return <div>User Not Found!</div>;
 
-  return <div className="profileContainer">{getUserJSX()}</div>;
+  const getKitchenHeader = () => {
+    return currentUser.id === user.id
+      ? "My Kitchen"
+      : `${user.displayName.split(" ")[0]}'s Kitchen`;
+  };
+
+  const getUserRecipies = () => {};
+
+  return (
+    <div className="profileContainer">
+      {getUserJSX()}
+      <div className="myKitchen">
+        <h1>{user && getKitchenHeader()}</h1>
+        <NavLink to="/AddRecipe">
+          <button>Add Recipe</button>
+        </NavLink>
+        <div className="userRecipeContainer">{getUserRecipies()}</div>
+      </div>
+    </div>
+  );
 }
 
 export default Profile;

@@ -98,6 +98,7 @@ h2 {
 
 .singleComment .leftComment img {
   width: 70px;
+  height: 70px;
   border-radius: 30%;
 }
 

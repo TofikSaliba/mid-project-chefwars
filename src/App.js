@@ -9,6 +9,7 @@ import Profile from "./Pages/Profile/Profile";
 import EditProfile from "./Pages/editProfile/EditProfile";
 import RecipePage from "./Pages/RecipePage/RecipePage";
 import NotFound from "./Pages/NotFound";
+import AddRecipe from "./Pages/AddRecipe/AddRecipe";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import { useHamburgerMenu } from "./contexts/AuthContext";
 
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/Contact" component={Contact} />
             <Route exact path="/Profile/:id" component={Profile} />
             <PrivateRoute exact path="/EditProfile" component={EditProfile} />
+            <PrivateRoute exact path="/AddRecipe" component={AddRecipe} />
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Recipies/:letter/:id?" component={RecipePage} />
             <Route path="*" component={NotFound} />

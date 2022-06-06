@@ -14,3 +14,23 @@
 .UserInfo img {
   width: 300px;
 }
+
+.myKitchen {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.myKitchen h1 {
+  text-align: center;
+}
+
+.userRecipeContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px);
+  justify-content: center;
+  width: 90%;
+  /* max-width: 1400px; */
+  gap: 2rem;
+  /* padding: 3rem 2rem; */
+}

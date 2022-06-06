@@ -30,9 +30,17 @@ function App() {
             <Route exact path="/Contact" component={Contact} />
             <Route exact path="/Profile/:id" component={Profile} />
             <PrivateRoute exact path="/EditProfile" component={EditProfile} />
-            <PrivateRoute exact path="/AddRecipe" component={AddRecipe} />
+            <PrivateRoute
+              exact
+              path="/Add-Edit-Recipe/:editing?"
+              component={AddRecipe}
+            />
             <Route exact path="/Login" component={Login} />
-            <Route exact path="/Recipies/:letter/:id?" component={RecipePage} />
+            <Route
+              exact
+              path="/Recipies/:letter/:from/:id?"
+              component={RecipePage}
+            />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

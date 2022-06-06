@@ -46,6 +46,7 @@ function Recipies({ match, history }) {
           name={recipe.strMeal}
           type={`${recipe.strArea}, ${recipe.strCategory}`}
           letter={fetchedRecipies.letter}
+          from="web"
         />
       );
     });

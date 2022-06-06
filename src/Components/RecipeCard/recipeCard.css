@@ -6,13 +6,9 @@
   background: var(--clr-buttons2);
   border-radius: 10px;
   padding: 1rem;
-  /* border: 7px ridge rgb(218, 165, 31); */
   font-size: clamp(1.4rem, 3vw, 2rem);
-  /* box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px; */
-  /* box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px; */
-  /* box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-    rgba(0, 0, 0, 0.22) 0px 15px 12px; */
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  position: relative;
 }
 
 .recipeCard .label {
@@ -21,6 +17,7 @@
 
 .recipeCard img {
   width: 220px;
+  height: 220px;
   align-self: center;
 }
 
@@ -39,4 +36,10 @@
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.recipeCardChildren {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2.5rem;
 }

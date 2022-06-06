@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { MdRemoveCircleOutline } from "react-icons/md";
 import { db } from "../../services/firebase";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { collection, getDoc, setDoc, doc } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -32,16 +32,44 @@ function AddRecipe({ match }) {
     { name: "", measure: "" },
   ]);
   const [done, setDone] = useState(false);
-  const { currentUser } = useAuth();
-
-  useEffect(() => {
-    console.log(match);
-  }, []);
+  const [notFound, setNotFound] = useState(false);
+  const { currentUser, setIsSpinning } = useAuth();
 
   const handleInputs = (value, key) => {
     const updatedLeft = { ...leftInput, [key]: value };
     setLeftInput(updatedLeft);
   };
+
+  useEffect(() => {
+    if (match.params.editing) {
+      const getData = async () => {
+        try {
+          setIsSpinning(true);
+          const recipeRef = doc(db, "usersRecipies", match.params.editing);
+          const userData = await getDoc(recipeRef);
+          if (userData.exists()) {
+            const recipe = userData.data();
+            setLeftInput({
+              name: recipe.name,
+              img: recipe.img,
+              category: recipe.category,
+              area: recipe.area,
+              video: recipe.video,
+            });
+            setInstructions(recipe.instructions);
+            setIngredients(recipe.ingredients);
+          } else {
+            setNotFound(true);
+          }
+        } catch (err) {
+          console.log(err.message);
+        } finally {
+          setIsSpinning(false);
+        }
+      };
+      getData();
+    }
+  }, []);
 
   const getLeftInputs = () => {
     return leftInputsData.map(({ name, type, holder, required }, idx) => {
@@ -108,33 +136,35 @@ function AddRecipe({ match }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const params = match.params.editing;
+    const recipeId = params
+      ? params
+      : ((Math.random() * 99999999 + 90000) | 0).toString();
     const recipeObj = {
       ...leftInput,
       instructions: instructions,
       ingredients: ingredients,
       userID: currentUser.id,
-      recipeID: ((Math.random() * 99999999 + 90000) | 0).toString(),
+      recipeID: recipeId,
     };
     try {
       await setDoc(doc(db, "usersRecipies", recipeObj.recipeID), recipeObj);
-      // const data = await getDocs(collection(db, "usersRecipies"));
-      // console.log(data);
-      // //! -----------------------------------
-      // data.forEach((doc) => {
-      //   // doc.data() is never undefined for query doc snapshots
-      //   console.log(doc.id, " => ", doc.data());
-      // });
       setDone(true);
     } catch (err) {
       console.log(err.message);
     }
   };
 
+  if (notFound)
+    return (
+      <div> Error - the recipe you are tring to edit does not exist !</div>
+    );
+
   if (done) return <Redirect to={`/Profile/${currentUser.id}`} />;
 
   return (
     <div className="addRecipeContainer">
-      <h1>Add A Recipe</h1>
+      <h1>{match.params.editing ? "Edit" : "Add"} Recipe</h1>
       <form onSubmit={handleSubmit}>
         <div className="formUpper">
           <div className="addLeft">
@@ -158,7 +188,7 @@ function AddRecipe({ match }) {
           <NavLink to={`/Profile/${currentUser.id}`}>
             <button type="button">Cancel</button>
           </NavLink>
-          <button type="submit">Add</button>
+          <button type="submit">{match.params.editing ? "Save" : "Add"}</button>
         </div>
       </form>
     </div>

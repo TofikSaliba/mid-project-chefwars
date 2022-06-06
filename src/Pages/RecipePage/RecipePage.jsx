@@ -119,7 +119,7 @@ function RecipePage({ match }) {
       </>
     );
   };
-  console.log(recipe);
+
   const getVidJSX = () => {
     return (
       <>

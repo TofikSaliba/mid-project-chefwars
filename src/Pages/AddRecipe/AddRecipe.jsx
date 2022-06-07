@@ -145,10 +145,10 @@ function AddRecipe({ match }) {
       instructions: instructions,
       ingredients: ingredients,
       userID: currentUser.id,
-      recipeID: recipeId,
+      id: recipeId,
     };
     try {
-      await setDoc(doc(db, "usersRecipies", recipeObj.recipeID), recipeObj);
+      await setDoc(doc(db, "usersRecipies", recipeObj.id), recipeObj);
       setDone(true);
     } catch (err) {
       console.log(err.message);

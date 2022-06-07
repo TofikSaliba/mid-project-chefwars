@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 import RecipeSearch from "../../Components/RecipeSearch/RecipeSearch";
+import { db } from "../../services/firebase";
+import { getDocs, collection } from "firebase/firestore";
 import { useSpinner } from "../../contexts/AuthContext";
 import API from "../../api/API";
 
 import "./recipies.css";
 
 function Recipies({ match, history }) {
-  const [fetchedRecipies, setFetchedRecipies] = useState(null);
+  const [fetchedRecipies, setFetchedRecipies] = useState([]);
+  const [userRecipies, setUserRecipies] = useState([]);
+  const [groupToShow, setGroupToShow] = useState("all");
   const { isSpinning, setIsSpinning } = useSpinner();
 
   useEffect(() => {
@@ -22,6 +26,7 @@ function Recipies({ match, history }) {
           results: data.meals,
           letter: match.params.letter,
         });
+        await getUserRecipe();
       } catch (err) {
         console.log(err.message);
       } finally {
@@ -31,22 +36,79 @@ function Recipies({ match, history }) {
     getData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(fetchedRecipies);
-  // }, [fetchedRecipies]);
+  const getUserRecipe = async () => {
+    const searchFor = match.params.letter.length > 1 ? "s" : "f";
+    try {
+      const data = await getDocs(collection(db, "usersRecipies"));
+      const userR = [];
+      data.forEach((doc) => {
+        if (
+          searchFor === "s" &&
+          doc
+            .data()
+            .name.toLowerCase()
+            .includes(match.params.letter.toLowerCase())
+        ) {
+          userR.push(doc.data());
+        } else if (
+          searchFor === "f" &&
+          doc
+            .data()
+            .name.toLowerCase()
+            .startsWith(match.params.letter.toLowerCase())
+        ) {
+          userR.push(doc.data());
+        }
+      });
+      setUserRecipies({
+        results: userR,
+        letter: match.params.letter,
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
-  const getRecipiesCards = () => {
-    if (!fetchedRecipies || !fetchedRecipies.results) return;
-    return fetchedRecipies.results.map((recipe) => {
+  const checkGetRecipiesCards = () => {
+    if (!fetchedRecipies.results && !userRecipies.results) return;
+    if (
+      !fetchedRecipies.results &&
+      (groupToShow === "all" || groupToShow === "web")
+    )
+      return;
+    if (groupToShow === "all" || groupToShow === "web") {
+      const APIRecipies = fetchedRecipies.results.map((rec) => {
+        return {
+          name: rec.strMeal,
+          img: rec.strMealThumb,
+          area: rec.strArea,
+          category: rec.strCategory,
+          id: rec.idMeal,
+        };
+      });
+
+      if (groupToShow === "all") {
+        return getRecipiesCards(APIRecipies.concat(userRecipies.results));
+      } else {
+        return getRecipiesCards(APIRecipies);
+      }
+    } else {
+      return getRecipiesCards(userRecipies.results);
+    }
+  };
+
+  const getRecipiesCards = (recipiesArr) => {
+    return recipiesArr.map((recipe) => {
+      const link = recipe.userID
+        ? `/Recipies/${userRecipies.letter}/user/${recipe.id}`
+        : `/Recipies/${fetchedRecipies.letter}/web/${recipe.id}`;
       return (
         <RecipeCard
-          key={recipe.idMeal}
-          id={recipe.idMeal}
-          img={recipe.strMealThumb}
-          name={recipe.strMeal}
-          type={`${recipe.strArea}, ${recipe.strCategory}`}
-          letter={fetchedRecipies.letter}
-          from="web"
+          key={recipe.id}
+          img={recipe.img}
+          name={recipe.name}
+          type={`${recipe.area}, ${recipe.category}`}
+          navLink={link}
         />
       );
     });
@@ -55,7 +117,11 @@ function Recipies({ match, history }) {
   if (isSpinning) {
     return (
       <>
-        <RecipeSearch setFetchedRecipies={setFetchedRecipies} />
+        <RecipeSearch
+          setFetchedRecipies={setFetchedRecipies}
+          setUserRecipies={setUserRecipies}
+          setGroupToShow={setGroupToShow}
+        />
         <div className="lds-roller">
           <div></div>
           <div></div>
@@ -74,6 +140,8 @@ function Recipies({ match, history }) {
     <>
       <RecipeSearch
         setFetchedRecipies={setFetchedRecipies}
+        setUserRecipies={setUserRecipies}
+        setGroupToShow={setGroupToShow}
         history={history}
         defaultSelect={match.params.letter[0]}
         searchRadio={match.params.letter.length > 1}
@@ -81,7 +149,7 @@ function Recipies({ match, history }) {
       {fetchedRecipies && !fetchedRecipies.results && (
         <div className="noRecipies">No Recipies Found</div>
       )}
-      <div className="recipiesCardContainer">{getRecipiesCards()}</div>
+      <div className="recipiesCardContainer">{checkGetRecipiesCards()}</div>
     </>
   );
 }

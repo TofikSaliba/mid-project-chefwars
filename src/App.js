@@ -29,6 +29,11 @@ function App() {
             <Route path="/About" component={About} />
             <Route exact path="/Contact" component={Contact} />
             <Route exact path="/Profile/:id" component={Profile} />
+            <Route
+              exact
+              path="/Profile/:id/:from/:recipeId"
+              component={RecipePage}
+            />
             <PrivateRoute exact path="/EditProfile" component={EditProfile} />
             <PrivateRoute
               exact
@@ -38,7 +43,7 @@ function App() {
             <Route exact path="/Login" component={Login} />
             <Route
               exact
-              path="/Recipies/:letter/:from/:id?"
+              path="/Recipies/:letter/:from/:id"
               component={RecipePage}
             />
             <Route path="*" component={NotFound} />

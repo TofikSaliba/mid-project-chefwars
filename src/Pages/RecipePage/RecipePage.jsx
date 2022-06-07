@@ -22,10 +22,20 @@ function RecipePage({ match }) {
     const getData = async () => {
       try {
         setIsSpinning(true);
-        const {
-          data: { meals },
-        } = await API.get(`/lookup.php?i=${match.params.id}`);
-        setTheRecipeInfo(meals[0]);
+        if (match.params.from === "web") {
+          const {
+            data: { meals },
+          } = await API.get(`/lookup.php?i=${match.params.id}`);
+          setTheRecipeInfo(meals[0]);
+        } else {
+          const userRecipeRef = doc(db, "usersRecipies", match.params.recipeId);
+          const recipeData = await getDoc(userRecipeRef);
+          if (recipeData.exists()) {
+            setRecipe(recipeData.data());
+          } else {
+            setNotFound(true);
+          }
+        }
       } catch (err) {
         setNotFound(true);
         console.log(err.message);

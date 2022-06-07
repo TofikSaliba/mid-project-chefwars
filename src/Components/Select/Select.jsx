@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Select({ onSelectChange, optionsArr, defaultVal, disabled }) {
+function Select({ onSelectChange, optionsArr, defaultVal, disabled, id }) {
   const [val, setVal] = useState(defaultVal);
   const [options, setOptions] = useState([]);
 
@@ -12,8 +12,8 @@ function Select({ onSelectChange, optionsArr, defaultVal, disabled }) {
   useEffect(() => {
     const optionsJSX = optionsArr.map((option) => {
       return (
-        <option key={option} value={option}>
-          {option.toUpperCase()}
+        <option key={option} value={option.split(" ")[0]}>
+          {option[0].toUpperCase() + option.slice(1)}
         </option>
       );
     });
@@ -23,7 +23,7 @@ function Select({ onSelectChange, optionsArr, defaultVal, disabled }) {
   return (
     <>
       <select
-        id="mySelect"
+        id={id}
         value={val}
         disabled={disabled}
         onChange={(e) => onInputChange(e.target.value)}

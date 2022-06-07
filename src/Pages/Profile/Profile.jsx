@@ -93,21 +93,19 @@ function Profile({ match }) {
     return userRecipies.map((recipe, idx) => {
       return (
         <RecipeCard
-          key={recipe.recipeID}
-          id={recipe.recipeID}
+          key={recipe.id}
           img={recipe.img}
           name={recipe.name}
           type={`${recipe.area}, ${recipe.category}`}
-          letter={recipe.name[0]}
-          from="user"
+          navLink={`/Profile/${match.params.id}/user/${recipe.id}`}
         >
           {currentUser && user && currentUser.id === user.id && (
             <>
               <FaRegTrashAlt
-                onClick={() => deleteRecipe(idx, recipe.recipeID)}
+                onClick={() => deleteRecipe(idx, recipe.id)}
                 className="react-icon"
               />
-              <NavLink to={`/Add-Edit-Recipe/${recipe.recipeID}`}>
+              <NavLink to={`/Add-Edit-Recipe/${recipe.id}`}>
                 <MdModeEditOutline color="black" className="react-icon" />
               </NavLink>
             </>

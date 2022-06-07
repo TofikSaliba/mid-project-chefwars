@@ -11,18 +11,24 @@ import RecipePage from "./Pages/RecipePage/RecipePage";
 import NotFound from "./Pages/NotFound";
 import AddRecipe from "./Pages/AddRecipe/AddRecipe";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
-import { useHamburgerMenu } from "./contexts/AuthContext";
+import { useHamburgerMenu, useDropProfile } from "./contexts/AuthContext";
 
 import "./style.css";
 
 function App() {
-  const { setHamburgerMenu } = useHamburgerMenu();
+  const { hamburgerMenu, setHamburgerMenu } = useHamburgerMenu();
+  const { dropProfile, setDropProfile } = useDropProfile();
+
+  const handlePopUpClose = () => {
+    if (hamburgerMenu) setHamburgerMenu(false);
+    if (!dropProfile) setDropProfile(true);
+  };
 
   return (
     <>
       <Router>
         <Header />
-        <div onClick={() => setHamburgerMenu(false)} className="mainContainer">
+        <div onClick={handlePopUpClose} className="mainContainer">
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/Recipies/:letter" component={Recipies} />

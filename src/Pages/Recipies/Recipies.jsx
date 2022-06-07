@@ -117,7 +117,6 @@ function Recipies({ match, history }) {
 
   const noRecipies = () => {
     if (!fetchedRecipies || !userRecipies) return false;
-    console.log(fetchedRecipies, userRecipies);
     if (!fetchedRecipies.results.length && !userRecipies.results.length) {
       return true;
     }

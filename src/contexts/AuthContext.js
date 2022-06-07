@@ -26,11 +26,17 @@ export const useHamburgerMenu = () => {
   return { hamburgerMenu, setHamburgerMenu };
 };
 
+export const useDropProfile = () => {
+  const { dropProfile, setDropProfile } = useContext(AuthContext);
+  return { dropProfile, setDropProfile };
+};
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentUserInfo, setCurrentUserInfo] = useState(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [hamburgerMenu, setHamburgerMenu] = useState(false);
+  const [dropProfile, setDropProfile] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -94,6 +100,8 @@ export function AuthProvider({ children }) {
     setIsSpinning,
     hamburgerMenu,
     setHamburgerMenu,
+    dropProfile,
+    setDropProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

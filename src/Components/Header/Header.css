@@ -67,7 +67,8 @@
 }
 
 .navBar a,
-.hamburgerMenu a {
+.hamburgerMenu a,
+.mobile-dropDownProfile .dropProfile a {
   padding: 1.5rem;
   text-decoration: none;
   border-radius: 5px;
@@ -83,14 +84,80 @@
 }
 
 .navBar a:hover,
-.hamburgerMenu a:hover {
+.hamburgerMenu a:hover,
+.mobile-dropDownProfile .dropProfile a:hover {
   background: rgb(226, 226, 178);
   color: #111;
+}
+
+.dropProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  right: 5px;
+  top: 10%;
+  border-radius: 10px;
+  background: var(--clr-nav);
+  z-index: 10;
+}
+
+.mobile-dropDownProfile .dropProfile {
+  right: 0.3rem;
+  top: 0.1rem;
+  background: var(--clr-nav);
+  z-index: 4;
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
+.mobile-dropDownProfile .dropProfile a {
+  font-size: 1.6rem;
+}
+
+.dropProfile a {
+  display: none;
+}
+
+.dropProfile.expanded a {
+  padding: 0.8rem 1rem;
+  display: block;
+}
+
+.dropProfile.expanded {
+  height: 150px;
+  width: 125px;
+  border-radius: 10px;
+}
+
+.dropProfile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.mobile-dropDownProfile {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 4;
+}
+.mobile-dropDownProfile .login-icon {
+  color: #111;
+  font-size: 4rem;
+  cursor: pointer;
 }
 
 @media (max-width: 670px) {
   .navBar {
     display: none;
+  }
+
+  .mobile-dropDownProfile {
+    display: block;
   }
 
   .hamburgerIcon,

@@ -25,7 +25,7 @@ function RecipePage({ match }) {
         if (match.params.from === "web") {
           const {
             data: { meals },
-          } = await API.get(`/lookup.php?i=${match.params.id}`);
+          } = await API.get(`/lookup.php?i=${match.params.recipeId}`);
           setTheRecipeInfo(meals[0]);
         } else {
           const userRecipeRef = doc(db, "usersRecipies", match.params.recipeId);

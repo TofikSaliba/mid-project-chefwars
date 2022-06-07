@@ -43,7 +43,7 @@ function App() {
             <Route exact path="/Login" component={Login} />
             <Route
               exact
-              path="/Recipies/:letter/:from/:id"
+              path="/Recipies/:letter/:from/:recipeId"
               component={RecipePage}
             />
             <Route path="*" component={NotFound} />

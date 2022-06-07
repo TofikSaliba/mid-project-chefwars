@@ -59,11 +59,11 @@ function RecipeSearch({
     try {
       const { data } = await API.get(`/search.php?${search}=${theTerm}`);
       setFetchedRecipies({
-        results: data.meals,
+        results: data.meals ?? [],
         letter: theTerm,
       });
       if (selectedToShow === "web") {
-        setUserRecipies([]);
+        setUserRecipies({ results: [] });
       }
     } catch (err) {
       console.log(err.message);
@@ -89,7 +89,7 @@ function RecipeSearch({
         letter: theTerm,
       });
       if (selectedToShow === "user") {
-        setFetchedRecipies([]);
+        setFetchedRecipies({ results: [] });
       }
     } catch (err) {
       console.log(err.message);

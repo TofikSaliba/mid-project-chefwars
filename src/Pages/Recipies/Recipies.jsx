@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 import RecipeSearch from "../../Components/RecipeSearch/RecipeSearch";
 import { db } from "../../services/firebase";
@@ -9,8 +9,8 @@ import API from "../../api/API";
 import "./recipies.css";
 
 function Recipies({ match, history }) {
-  const [fetchedRecipies, setFetchedRecipies] = useState([]);
-  const [userRecipies, setUserRecipies] = useState([]);
+  const [fetchedRecipies, setFetchedRecipies] = useState({ results: [] });
+  const [userRecipies, setUserRecipies] = useState({ results: [] });
   const [groupToShow, setGroupToShow] = useState("all");
   const { isSpinning, setIsSpinning } = useSpinner();
 
@@ -23,7 +23,7 @@ function Recipies({ match, history }) {
           `/search.php?${searchFor}=${match.params.letter}`
         );
         setFetchedRecipies({
-          results: data.meals,
+          results: data.meals ?? [],
           letter: match.params.letter,
         });
         await getUserRecipe();
@@ -71,6 +71,7 @@ function Recipies({ match, history }) {
 
   const checkGetRecipiesCards = () => {
     if (!fetchedRecipies.results && !userRecipies.results) return;
+
     if (
       !fetchedRecipies.results &&
       (groupToShow === "all" || groupToShow === "web")
@@ -114,6 +115,15 @@ function Recipies({ match, history }) {
     });
   };
 
+  const noRecipies = () => {
+    if (!fetchedRecipies || !userRecipies) return false;
+    console.log(fetchedRecipies, userRecipies);
+    if (!fetchedRecipies.results.length && !userRecipies.results.length) {
+      return true;
+    }
+    return false;
+  };
+
   if (isSpinning) {
     return (
       <>
@@ -146,9 +156,7 @@ function Recipies({ match, history }) {
         defaultSelect={match.params.letter[0]}
         searchRadio={match.params.letter.length > 1}
       />
-      {fetchedRecipies && !fetchedRecipies.results && (
-        <div className="noRecipies">No Recipies Found</div>
-      )}
+      {noRecipies() && <div className="noRecipies">No Recipies Found</div>}
       <div className="recipiesCardContainer">{checkGetRecipiesCards()}</div>
     </>
   );

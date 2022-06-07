@@ -6,7 +6,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 function Header() {
   const { hamburgerMenu, setHamburgerMenu } = useHamburgerMenu();
-  const { currentUser, currentUserInfo, signOutGoogle } = useAuth();
+  const { currentUser, signOutGoogle } = useAuth();
   return (
     <>
       <div className="navBar">

@@ -68,10 +68,25 @@ function Profile({ match }) {
     getData();
   }, [match.params.id]);
 
+  const getRank = () => {
+    if (user.points < 150) {
+      return "Junior Chef";
+    } else if (user.points > 149 && user.points < 500) {
+      return "Station Chef";
+    } else if (user.points > 499 && user.points < 2000) {
+      return "Deputy Chef";
+    } else if (user.points > 1999 && user.points < 5000) {
+      return "Head Chef";
+    } else if (user.points > 4999) {
+      return "Master Chef";
+    }
+  };
+
   const getUserJSX = () => {
     if (!user) return;
     return (
       <div className="UserInfo">
+        <h4>{`Rank: ${getRank()}, Pts:${user.points}`}</h4>
         <h2>{user.displayName}</h2>
         <img src={user.img} alt={user.displayName} />
         {user.location && <div>Location: {user.location}</div>}

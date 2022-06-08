@@ -91,24 +91,6 @@ function Header() {
             {" "}
             <li>Contact</li>
           </NavLink>
-
-          {!currentUser ? (
-            <NavLink to="/Login" className="user">
-              <li>Login</li>
-            </NavLink>
-          ) : (
-            <>
-              <NavLink to="/EditProfile" className="user">
-                <li>EditProf</li>
-              </NavLink>
-              <NavLink to={`/Profile/${currentUser.id}`} className="user">
-                <li>Profile</li>
-              </NavLink>
-              <NavLink onClick={signOutGoogle} to="/" className="user">
-                <li>logOut</li>
-              </NavLink>
-            </>
-          )}
         </ul>
       </div>
       <div className="mobile-dropDownProfile">

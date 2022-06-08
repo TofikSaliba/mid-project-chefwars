@@ -1,0 +1,62 @@
+.topAndLoginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem 0;
+}
+.topAndLoginContainer .joinUs {
+  margin-bottom: 10rem;
+}
+
+.topUsers {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.topUsers h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.topUsers .user,
+.topUsers .headers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.topUsers .headers {
+  font-weight: bold;
+  text-align: center;
+}
+
+.topUsers .name {
+  min-width: 200px;
+}
+.topUsers .title {
+  min-width: 120px;
+}
+.topUsers .points {
+  min-width: 70px;
+}
+
+.recipeOfTheDay {
+  width: 40%;
+  min-width: 250px;
+}
+
+.welcomeInto {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-self: center;
+  text-align: center;
+}
+
+.dayAndUsers {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+}

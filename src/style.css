@@ -46,6 +46,7 @@ html {
   flex-direction: column;
   width: 100%;
   max-width: 1400px;
+  padding-bottom: 4rem;
   gap: 3rem;
   font-size: clamp(1.4rem, 3vw, 2rem);
 }

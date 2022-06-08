@@ -100,6 +100,7 @@ function RecipePage({ match }) {
       await setDoc(doc(db, "recipieInteracts", recipe.id), {
         comments: [],
         voting: { good: 0, bad: 0, voters: [] },
+        id: recipe.id,
       });
       setVotes({ good: 0, bad: 0, voters: [] });
     } catch (err) {

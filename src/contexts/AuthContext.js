@@ -62,6 +62,7 @@ export function AuthProvider({ children }) {
           displayName: user.displayName,
           email: user.email,
           img: user.photoURL,
+          points: 50,
         };
         await setDoc(userRef, userObj);
         setCurrentUser(userObj);

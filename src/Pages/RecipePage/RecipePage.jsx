@@ -16,7 +16,7 @@ function RecipePage({ match }) {
   const [commentsSpinner, setCommentsSpinner] = useState(false);
   const [votes, setVotes] = useState({});
   const [voteThumbs, setVoteThumbs] = useState([false, false]);
-  const [cantVote, setCantVote] = useState(false);
+  const [userPoints, setUserPoints] = useState(null);
   const { currentUser } = useAuth();
   const { isSpinning, setIsSpinning } = useSpinner();
 
@@ -57,6 +57,7 @@ function RecipePage({ match }) {
           if (recipeData.exists()) {
             setComments(recipeData.data().comments.reverse());
             setVotes(recipeData.data().voting);
+            getUserPoints();
             getCurrentUserVote(recipeData.data().voting);
           } else {
             setRecipeComments();
@@ -68,6 +69,18 @@ function RecipePage({ match }) {
       getData();
     }
   }, [recipe, currentUser]);
+
+  const getUserPoints = async () => {
+    if (recipe.userID) {
+      const userRef = doc(db, "users", recipe.userID);
+      const userData = await getDoc(userRef);
+      if (userData.exists()) {
+        setUserPoints(userData.data().points);
+      } else {
+        throw new Error("User ID Not Found!");
+      }
+    }
+  };
 
   const getCurrentUserVote = (votes) => {
     if (!currentUser) return;
@@ -241,59 +254,87 @@ function RecipePage({ match }) {
   };
 
   const cancelVote = async (key, fetchedVotes, recipeInterRef) => {
-    const newVoters = fetchedVotes.voters.filter((userVote) => {
-      return userVote.user !== currentUser.id;
-    });
-    const newVote = {
-      ...fetchedVotes,
-      [key]: fetchedVotes[key] - 1,
-      voters: newVoters,
-    };
-    await updateDoc(recipeInterRef, { voting: newVote });
-    setVotes(newVote);
-    setVoteThumbs([false, false]);
+    try {
+      const newVoters = fetchedVotes.voters.filter((userVote) => {
+        return userVote.user !== currentUser.id;
+      });
+      const newVote = {
+        ...fetchedVotes,
+        [key]: fetchedVotes[key] - 1,
+        voters: newVoters,
+      };
+
+      await updateDoc(recipeInterRef, { voting: newVote });
+      setVotes(newVote);
+      setVoteThumbs([false, false]);
+      if (userPoints !== null) {
+        const newPoints = key === "bad" ? userPoints + 5 : userPoints - 10;
+        await updateDoc(doc(db, "users", recipe.userID), { points: newPoints });
+        setUserPoints(newPoints);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const switchVote = async (key, fetchedVotes, recipeInterRef) => {
-    let keys, newVoteBool;
-    if (key === "bad") {
-      keys = ["bad", "good"];
-      newVoteBool = false;
-    } else {
-      keys = ["good", "bad"];
-      newVoteBool = true;
-    }
-    const newVoters = fetchedVotes.voters.map((userVote) => {
-      if (userVote.user === currentUser.id) {
-        userVote.voteIs = newVoteBool;
+    try {
+      let keys, newVoteBool;
+      if (key === "bad") {
+        keys = ["bad", "good"];
+        newVoteBool = false;
+      } else {
+        keys = ["good", "bad"];
+        newVoteBool = true;
       }
-      return userVote;
-    });
+      const newVoters = fetchedVotes.voters.map((userVote) => {
+        if (userVote.user === currentUser.id) {
+          userVote.voteIs = newVoteBool;
+        }
+        return userVote;
+      });
 
-    const newVote = {
-      [keys[0]]: fetchedVotes[keys[0]] + 1,
-      [keys[1]]: fetchedVotes[keys[1]] - 1,
-      voters: newVoters,
-    };
-    console.log(fetchedVotes, newVote, votes);
-    await updateDoc(recipeInterRef, { voting: newVote });
-    setVotes(newVote);
-    setVoteThumbs([!newVoteBool, newVoteBool]);
+      const newVote = {
+        [keys[0]]: fetchedVotes[keys[0]] + 1,
+        [keys[1]]: fetchedVotes[keys[1]] - 1,
+        voters: newVoters,
+      };
+      await updateDoc(recipeInterRef, { voting: newVote });
+      setVotes(newVote);
+      setVoteThumbs([!newVoteBool, newVoteBool]);
+
+      if (userPoints !== null) {
+        const newPoints = key === "bad" ? userPoints - 15 : userPoints + 15;
+        await updateDoc(doc(db, "users", recipe.userID), { points: newPoints });
+        setUserPoints(newPoints);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const createNewVote = async (key, fetchedVotes, recipeInterRef) => {
-    const newVoters = [...fetchedVotes.voters];
-    const vote = key === "bad" ? false : true;
-    newVoters.push({ user: currentUser.id, voteIs: vote });
-    const newVote = {
-      ...fetchedVotes,
-      [key]: fetchedVotes[key] + 1,
-      voters: newVoters,
-    };
+    try {
+      const newVoters = [...fetchedVotes.voters];
+      const vote = key === "bad" ? false : true;
+      newVoters.push({ user: currentUser.id, voteIs: vote });
+      const newVote = {
+        ...fetchedVotes,
+        [key]: fetchedVotes[key] + 1,
+        voters: newVoters,
+      };
 
-    await updateDoc(recipeInterRef, { voting: newVote });
-    setVotes(newVote);
-    setVoteThumbs([!vote, vote]);
+      await updateDoc(recipeInterRef, { voting: newVote });
+      setVotes(newVote);
+      setVoteThumbs([!vote, vote]);
+      if (userPoints !== null) {
+        const newPoints = key === "bad" ? userPoints - 5 : userPoints + 10;
+        await updateDoc(doc(db, "users", recipe.userID), { points: newPoints });
+        setUserPoints(newPoints);
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const handleTextArea = ({ target }) => {
@@ -314,57 +355,33 @@ function RecipePage({ match }) {
                 <div className="thumbsCont">
                   <div className="innerThumbBad">
                     {votes.bad}
-                    {
-                      currentUser && (
-                        <div
-                          className="voteDownDiv"
-                          onClick={() => vote("bad")}
-                        >
-                          {voteThumbs[0] ? (
-                            <Fa.FaThumbsDown className="voteDown" />
-                          ) : (
-                            <Fa.FaRegThumbsDown className="voteDown" />
-                          )}
-                        </div>
-                      )
-                      // <span
-                      //   onClick={() => vote("bad", false)}
-                      //   className="voteDown"
-                      // >
-                      //   &#128078;
-                      // </span>
-                    }
+                    {currentUser && (
+                      <div className="voteDownDiv" onClick={() => vote("bad")}>
+                        {voteThumbs[0] ? (
+                          <Fa.FaThumbsDown className="voteDown" />
+                        ) : (
+                          <Fa.FaRegThumbsDown className="voteDown" />
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="innerThumbGood">
                     {votes.good}
-                    {
-                      currentUser && (
-                        <div className="voteUpDiv" onClick={() => vote("good")}>
-                          {" "}
-                          {voteThumbs[1] ? (
-                            <Fa.FaThumbsUp className="voteUp" />
-                          ) : (
-                            <Fa.FaRegThumbsUp className="voteUp" />
-                          )}
-                        </div>
-                      )
-                      // <span
-                      //   onClick={() => vote("good", true)}
-                      //   className="voteUp"
-                      // >
-                      //   &#128077;
-                      // </span>
-                    }
+                    {currentUser && (
+                      <div className="voteUpDiv" onClick={() => vote("good")}>
+                        {" "}
+                        {voteThumbs[1] ? (
+                          <Fa.FaThumbsUp className="voteUp" />
+                        ) : (
+                          <Fa.FaRegThumbsUp className="voteUp" />
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {!currentUser && (
                   <div>
                     Must <NavLink to="/Login">login</NavLink> to vote
-                  </div>
-                )}
-                {cantVote && (
-                  <div className="alreadyVoted">
-                    You already voted for this recipe!
                   </div>
                 )}
               </div>

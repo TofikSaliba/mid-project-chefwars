@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   useAuth,
@@ -9,6 +8,7 @@ import "./Header.css";
 import { FaHamburger } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { GoSignIn } from "react-icons/go";
+import { GrAddCircle } from "react-icons/gr";
 
 function Header() {
   const { hamburgerMenu, setHamburgerMenu } = useHamburgerMenu();
@@ -120,6 +120,9 @@ function Header() {
           getDropProfile()
         )}
       </div>
+      <NavLink to="/Add-Edit-Recipe" className="user">
+        <GrAddCircle className="global-Add" />
+      </NavLink>
     </>
   );
 }

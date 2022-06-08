@@ -120,9 +120,11 @@ function Header() {
           getDropProfile()
         )}
       </div>
-      <NavLink to="/Add-Edit-Recipe" className="user">
-        <GrAddCircle className="global-Add" />
-      </NavLink>
+      {currentUser && (
+        <NavLink to="/Add-Edit-Recipe" className="user">
+          <GrAddCircle className="global-Add" />
+        </NavLink>
+      )}
     </>
   );
 }

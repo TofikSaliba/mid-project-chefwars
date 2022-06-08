@@ -4,6 +4,7 @@ import { useAuth, useSpinner } from "../../contexts/AuthContext";
 import API from "../../api/API";
 import { db } from "../../services/firebase";
 import { getDoc, setDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import * as Fa from "react-icons/fa";
 
 import "./recipePage.css";
 
@@ -14,6 +15,7 @@ function RecipePage({ match }) {
   const [comments, setComments] = useState([]);
   const [commentsSpinner, setCommentsSpinner] = useState(false);
   const [votes, setVotes] = useState({});
+  const [voteThumbs, setVoteThumbs] = useState([false, false]);
   const [cantVote, setCantVote] = useState(false);
   const { currentUser } = useAuth();
   const { isSpinning, setIsSpinning } = useSpinner();
@@ -55,6 +57,7 @@ function RecipePage({ match }) {
           if (recipeData.exists()) {
             setComments(recipeData.data().comments.reverse());
             setVotes(recipeData.data().voting);
+            getCurrentUserVote(recipeData.data().voting);
           } else {
             setRecipeComments();
           }
@@ -64,7 +67,18 @@ function RecipePage({ match }) {
       };
       getData();
     }
-  }, [recipe]);
+  }, [recipe, currentUser]);
+
+  const getCurrentUserVote = (votes) => {
+    if (!currentUser) return;
+    const userVote = votes.voters.find((vote) => {
+      return vote.user === currentUser.id;
+    });
+    if (userVote) {
+      const arr = userVote.voteIs ? [false, true] : [true, false];
+      setVoteThumbs(arr);
+    }
+  };
 
   const setRecipeComments = async () => {
     try {
@@ -209,34 +223,77 @@ function RecipePage({ match }) {
     setCommentArea("");
   };
 
-  const vote = async (key, vote) => {
-    if (cantVote || checkPerssion()) return;
+  const vote = async (key) => {
     const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
     const recipeData = await getDoc(recipeInterRef);
     const fetchedVotes = recipeData.data().voting;
+
+    if ((key === "bad" && voteThumbs[0]) || (key === "good" && voteThumbs[1])) {
+      cancelVote(key, fetchedVotes, recipeInterRef);
+    } else if (
+      (key === "bad" && voteThumbs[1]) ||
+      (key === "good" && voteThumbs[0])
+    ) {
+      switchVote(key, fetchedVotes, recipeInterRef);
+    } else {
+      createNewVote(key, fetchedVotes, recipeInterRef);
+    }
+  };
+
+  const cancelVote = async (key, fetchedVotes, recipeInterRef) => {
+    const newVoters = fetchedVotes.voters.filter((userVote) => {
+      return userVote.user !== currentUser.id;
+    });
+    const newVote = {
+      ...fetchedVotes,
+      [key]: fetchedVotes[key] - 1,
+      voters: newVoters,
+    };
+    await updateDoc(recipeInterRef, { voting: newVote });
+    setVotes(newVote);
+    setVoteThumbs([false, false]);
+  };
+
+  const switchVote = async (key, fetchedVotes, recipeInterRef) => {
+    let keys, newVoteBool;
+    if (key === "bad") {
+      keys = ["bad", "good"];
+      newVoteBool = false;
+    } else {
+      keys = ["good", "bad"];
+      newVoteBool = true;
+    }
+    const newVoters = fetchedVotes.voters.map((userVote) => {
+      if (userVote.user === currentUser.id) {
+        userVote.voteIs = newVoteBool;
+      }
+      return userVote;
+    });
+
+    const newVote = {
+      [keys[0]]: fetchedVotes[keys[0]] + 1,
+      [keys[1]]: fetchedVotes[keys[1]] - 1,
+      voters: newVoters,
+    };
+    console.log(fetchedVotes, newVote, votes);
+    await updateDoc(recipeInterRef, { voting: newVote });
+    setVotes(newVote);
+    setVoteThumbs([!newVoteBool, newVoteBool]);
+  };
+
+  const createNewVote = async (key, fetchedVotes, recipeInterRef) => {
     const newVoters = [...fetchedVotes.voters];
+    const vote = key === "bad" ? false : true;
     newVoters.push({ user: currentUser.id, voteIs: vote });
     const newVote = {
       ...fetchedVotes,
       [key]: fetchedVotes[key] + 1,
       voters: newVoters,
     };
+
     await updateDoc(recipeInterRef, { voting: newVote });
     setVotes(newVote);
-  };
-
-  const checkPerssion = () => {
-    const userVote = votes.voters.find((vote) => {
-      return vote.user === currentUser.id;
-    });
-    if (!userVote) {
-      return false;
-    }
-    setCantVote(true);
-    setTimeout(() => {
-      setCantVote(false);
-    }, 2500);
-    return true;
+    setVoteThumbs([!vote, vote]);
   };
 
   const handleTextArea = ({ target }) => {
@@ -245,6 +302,7 @@ function RecipePage({ match }) {
   };
 
   if (notFound) return <div>Recipe Not Found!</div>;
+
   return (
     <>
       {!isSpinning && (
@@ -256,25 +314,47 @@ function RecipePage({ match }) {
                 <div className="thumbsCont">
                   <div className="innerThumbBad">
                     {votes.bad}
-                    {currentUser && (
-                      <span
-                        onClick={() => vote("bad", false)}
-                        className="voteDown"
-                      >
-                        &#128078;
-                      </span>
-                    )}
+                    {
+                      currentUser && (
+                        <div
+                          className="voteDownDiv"
+                          onClick={() => vote("bad")}
+                        >
+                          {voteThumbs[0] ? (
+                            <Fa.FaThumbsDown className="voteDown" />
+                          ) : (
+                            <Fa.FaRegThumbsDown className="voteDown" />
+                          )}
+                        </div>
+                      )
+                      // <span
+                      //   onClick={() => vote("bad", false)}
+                      //   className="voteDown"
+                      // >
+                      //   &#128078;
+                      // </span>
+                    }
                   </div>
                   <div className="innerThumbGood">
                     {votes.good}
-                    {currentUser && (
-                      <span
-                        onClick={() => vote("good", true)}
-                        className="voteUp"
-                      >
-                        &#128077;
-                      </span>
-                    )}
+                    {
+                      currentUser && (
+                        <div className="voteUpDiv" onClick={() => vote("good")}>
+                          {" "}
+                          {voteThumbs[1] ? (
+                            <Fa.FaThumbsUp className="voteUp" />
+                          ) : (
+                            <Fa.FaRegThumbsUp className="voteUp" />
+                          )}
+                        </div>
+                      )
+                      // <span
+                      //   onClick={() => vote("good", true)}
+                      //   className="voteUp"
+                      // >
+                      //   &#128077;
+                      // </span>
+                    }
                   </div>
                 </div>
                 {!currentUser && (

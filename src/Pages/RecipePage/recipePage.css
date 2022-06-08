@@ -151,7 +151,14 @@ h2 {
 
 .voteDown,
 .voteUp {
+  font-size: 3rem;
   cursor: pointer;
+  color: #111;
+}
+
+.voteDownDiv,
+.voteUpDiv {
+  margin-top: 1rem;
 }
 
 .rightContainer .alreadyVoted {

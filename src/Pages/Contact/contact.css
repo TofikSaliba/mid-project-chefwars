@@ -1,7 +1,7 @@
 .contactContainer {
   display: grid;
   grid-template-columns: 3fr 1fr;
-  gap: 2rem;
+  gap: 10rem;
   max-width: 1200px;
   padding: 0 2rem;
   align-self: center;
@@ -39,8 +39,38 @@
 }
 
 .rightMessage {
-  padding: 3rem;
+  padding: 2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.rightMessage span {
+  font-weight: bold;
+}
+
+.popUp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popUp div {
+  background: var(--clr-nav);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 30%;
+  text-align: center;
+}
+
+.popUp button {
+  margin-top: 2rem;
 }
 
 @media (max-width: 750px) {

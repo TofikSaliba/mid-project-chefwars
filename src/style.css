@@ -1,8 +1,8 @@
 :root {
   --clr-nav: #0f7173;
-  --clr-buttons2: #f05d5e;
+  /* --clr-buttons2: #f05d5e; */
   --clr-buttons3: #ea3546;
-  --clr-buttons: #4c191b;
+  --clr-buttons2: #3a2d2d;
   --clr-card2: #65524d;
   --clr-light: #e7ecef;
   --clr-light2: rgb(235, 201, 110);
@@ -37,6 +37,36 @@ html {
 
 .lottieSpinner {
   width: 200px;
+}
+
+.notFound {
+  text-align: center;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(2rem, 3vw, 4rem);
+  font-weight: bold;
+}
+
+.loginGoogle {
+  text-align: center;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginGoogle button {
+  font-size: clamp(2rem, 3vw, 4rem);
+  padding: 2rem 2rem;
+}
+
+.loginGoogle .googleImg {
+  width: 270px;
+  height: 200px;
+  align-self: center;
+  background: url(./assets//images/google.png) no-repeat center;
 }
 
 .mainContainer {

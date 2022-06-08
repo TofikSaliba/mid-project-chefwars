@@ -6,9 +6,28 @@ function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [popUp, setPopUp] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setPopUp(true);
+    setTitle("");
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
+
   return (
     <div className="contactContainer">
-      <form>
+      {popUp && (
+        <div className="popUp">
+          <div>
+            <h2>Your submition was completed successfully! Thank you.</h2>
+            <button onClick={() => setPopUp(false)}>Close</button>
+          </div>
+        </div>
+      )}
+      <form onSubmit={handleSubmit}>
         <h1>Contact Us</h1>
         <input
           id="name"
@@ -16,6 +35,7 @@ function Contact() {
           value={name}
           type="text"
           placeholder="Name..."
+          required
         />
         <input
           id="email"
@@ -23,6 +43,7 @@ function Contact() {
           value={email}
           type="email"
           placeholder="E-mail..."
+          required
         />
         <input
           id="title"
@@ -37,11 +58,25 @@ function Contact() {
           name="message"
           id="message"
           placeholder="Your description here..."
+          required
         />
         <button type="submit">Submit</button>
       </form>
       <div className="rightMessage">
-        We will get back to you within 24 hours!
+        <h2>Another option at:</h2>
+        <div>
+          Phone: <span>088-477-777</span>
+        </div>
+        <span>OR</span>
+        <div>
+          Email: <span>Service@Chefwars.com</span>
+        </div>
+        <div>
+          Our dear users you are so important to us!
+          <br />
+          <br />
+          <span>We will get back to you within 24 hours!</span>
+        </div>
       </div>
     </div>
   );

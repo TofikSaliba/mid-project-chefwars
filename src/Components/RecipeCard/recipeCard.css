@@ -13,7 +13,7 @@
   font-size: clamp(1.4rem, 3vw, 2rem);
   position: relative;
   text-decoration: none;
-  color: #111;
+  color: #fff;
 }
 
 .recipeCard .label {

@@ -50,7 +50,7 @@ function About() {
             If you have any questions don't hesitate ask! you are weclome to
             contact us{" "}
             <NavLink to="/Contact">
-              <button>HERE</button>
+              <button>Here</button>
             </NavLink>
           </div>
           <img src={aboutSmall} alt="sideImg" />

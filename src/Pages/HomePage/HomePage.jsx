@@ -91,7 +91,10 @@ function HomePage() {
         </NavLink>
       </div>
       <div className="dayAndUsers">
-        <div className="recipeOfTheDay">{getRecipeOfDay()}</div>
+        <div className="recipeOfTheDay">
+          <h2>Recipe Of The Day</h2>
+          {getRecipeOfDay()}
+        </div>
         <div className="topAndLoginContainer">
           <div className="topUsers">
             <h2>Our Top Users</h2>
@@ -104,7 +107,11 @@ function HomePage() {
           </div>
           {!currentUser && (
             <div className="joinUs">
-              What are you waiting for ?
+              <p>
+                Create your own recipies, with the ability to post a video, get
+                likes and reputation points for it and climb up the ladder of
+                Chefwars! What are you waiting for ?
+              </p>
               <NavLink to="/Login">
                 <button>Login now!</button>
               </NavLink>

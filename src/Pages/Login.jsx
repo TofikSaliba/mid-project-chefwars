@@ -14,6 +14,7 @@ function Login() {
 
   return (
     <div className="loginGoogle">
+      <div className="googleImg"></div>
       <button onClick={login}>Login with google</button>
     </div>
   );

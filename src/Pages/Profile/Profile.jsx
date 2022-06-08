@@ -91,6 +91,13 @@ function Profile({ match }) {
         {user.location && <div>Location: {user.location}</div>}
         {user.age && <div>Age: {user.age}</div>}
         {user.bio && <p>Bio: {user.bio}</p>}
+        {user.id === currentUser.id && (
+          <div className="editOption">
+            <NavLink to="/EditProfile">
+              Edit <MdModeEditOutline />
+            </NavLink>
+          </div>
+        )}
       </div>
     );
   };

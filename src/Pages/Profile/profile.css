@@ -75,6 +75,15 @@
   padding: 0 2rem;
 }
 
+.editOption {
+  margin-top: 3rem;
+}
+
+.editOption a {
+  text-decoration: none;
+  color: #111;
+}
+
 @media (max-width: 650px) {
   .profileContainer {
     grid-template-columns: 1fr;

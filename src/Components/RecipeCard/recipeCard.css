@@ -1,14 +1,19 @@
 .recipeCard {
+  background: var(--clr-buttons2);
+  border-radius: 10px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  padding-bottom: 1rem;
+}
+
+.recipeCardLink {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1rem;
-  background: var(--clr-buttons2);
-  border-radius: 10px;
-  padding: 1rem;
   font-size: clamp(1.4rem, 3vw, 2rem);
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
   position: relative;
+  text-decoration: none;
+  color: #111;
 }
 
 .recipeCard .label {
@@ -16,9 +21,10 @@
 }
 
 .recipeCard img {
-  width: 220px;
-  height: 220px;
+  width: 100%;
   align-self: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .recipeCard .recipeName {
@@ -30,16 +36,16 @@
 .recipeCard .detail {
   display: flex;
   width: 100%;
-}
-
-.recipeCard .cardBtns {
-  display: flex;
-  width: 100%;
-  justify-content: center;
+  min-height: 6rem;
+  padding: 0 1rem;
 }
 
 .recipeCardChildren {
   display: flex;
   justify-content: space-between;
   font-size: 2.5rem;
+  padding: 0 1rem;
+}
+.recipeCardChildren .react-icon:hover {
+  transform: scale(1.2);
 }

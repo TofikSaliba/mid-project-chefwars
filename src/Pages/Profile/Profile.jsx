@@ -22,7 +22,7 @@ function Profile({ match }) {
   const [notFound, setNotFound] = useState(false);
 
   const { currentUser } = useAuth();
-  const { setIsSpinning } = useSpinner();
+  const { isSpinning, setIsSpinning } = useSpinner();
 
   useEffect(() => {
     const getData = async () => {
@@ -32,6 +32,7 @@ function Profile({ match }) {
         const userData = await getDoc(userRef);
         if (userData.exists()) {
           setUser(userData.data());
+          setNotFound(false);
         } else {
           setNotFound(true);
         }
@@ -102,8 +103,6 @@ function Profile({ match }) {
     );
   };
 
-  if (notFound) return <div>User Not Found!</div>;
-
   const getKitchenHeader = () => {
     const elseKitchen = `${user.displayName.split(" ")[0]}'s Kitchen`;
     if (!currentUser) return elseKitchen;
@@ -143,6 +142,8 @@ function Profile({ match }) {
 
   const confirmDelete = async () => {
     try {
+      setDeletePop((prev) => [false, prev[1], prev[2]]);
+      setIsSpinning(true);
       await deleteDoc(doc(db, "usersRecipies", deletePop[2]));
       const newRecipies = [...userRecipies];
       newRecipies.splice(deletePop[1], 1);
@@ -151,9 +152,12 @@ function Profile({ match }) {
       console.log(err);
     } finally {
       setDeletePop([false, null, null]);
+      setIsSpinning(false);
       document.body.style.overflow = "scroll";
     }
   };
+
+  if (notFound) return <div>User Not Found!</div>;
 
   return (
     <div className="profileContainer">
@@ -165,7 +169,9 @@ function Profile({ match }) {
             <button>Add Recipe</button>
           </NavLink>
         )}
-        <div className="userRecipeContainer">{getUserRecipies()}</div>
+        <div className="userRecipeContainer">
+          {!isSpinning && getUserRecipies()}
+        </div>
       </div>
       {deletePop[0] && (
         <div className="confirmDelete">

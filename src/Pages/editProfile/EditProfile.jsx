@@ -14,7 +14,7 @@ function EditProfile() {
   const [age, setAge] = useState("");
   const [userBio, setUserBio] = useState("");
   const [redirect, setRedicrect] = useState(false);
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser, setCurrentUser, isSpinning, setIsSpinning } = useAuth();
 
   useEffect(() => {
     setNewName(currentUser.displayName);
@@ -32,6 +32,7 @@ function EditProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSpinning(true);
     const edits = {
       displayName: newName,
       img: imageURL,
@@ -46,8 +47,12 @@ function EditProfile() {
       setRedicrect(true);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setIsSpinning(false);
     }
   };
+
+  if (isSpinning) return;
 
   if (redirect) {
     return <Redirect to={`/Profile/${currentUser.id}`} />;

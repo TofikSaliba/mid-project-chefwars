@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Lottie from "lottie-react";
+import foodSpinner from "./lottie/food-animation.json";
 import Header from "./Components/Header/Header";
 import HomePage from "./Pages/HomePage";
 import Recipies from "./Pages/Recipies/Recipies";
@@ -11,13 +13,19 @@ import RecipePage from "./Pages/RecipePage/RecipePage";
 import NotFound from "./Pages/NotFound";
 import AddRecipe from "./Pages/AddRecipe/AddRecipe";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
-import { useHamburgerMenu, useDropProfile } from "./contexts/AuthContext";
+
+import {
+  useHamburgerMenu,
+  useDropProfile,
+  useSpinner,
+} from "./contexts/AuthContext";
 
 import "./style.css";
 
 function App() {
   const { hamburgerMenu, setHamburgerMenu } = useHamburgerMenu();
   const { dropProfile, setDropProfile } = useDropProfile();
+  const { isSpinning } = useSpinner();
 
   const handlePopUpClose = () => {
     if (hamburgerMenu) setHamburgerMenu(false);
@@ -27,6 +35,15 @@ function App() {
   return (
     <>
       <Router>
+        {isSpinning && (
+          <div id="lottieSpinnerDiv">
+            <Lottie
+              className="lottieSpinner"
+              animationData={foodSpinner}
+              loop
+            />
+          </div>
+        )}
         <Header />
         <div onClick={handlePopUpClose} className="mainContainer">
           <Switch>

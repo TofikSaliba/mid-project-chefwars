@@ -33,7 +33,7 @@ function AddRecipe({ match }) {
   ]);
   const [done, setDone] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const { currentUser, setIsSpinning } = useAuth();
+  const { currentUser, isSpinning, setIsSpinning } = useAuth();
 
   const handleInputs = (value, key) => {
     const updatedLeft = { ...leftInput, [key]: value };
@@ -137,6 +137,7 @@ function AddRecipe({ match }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSpinning(true);
     const params = match.params.editing;
     const recipeId = params
       ? params
@@ -153,8 +154,12 @@ function AddRecipe({ match }) {
       setDone(true);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setIsSpinning(false);
     }
   };
+
+  if (isSpinning) return;
 
   if (notFound)
     return (

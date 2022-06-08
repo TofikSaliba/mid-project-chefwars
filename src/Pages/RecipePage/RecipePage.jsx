@@ -189,7 +189,10 @@ function RecipePage({ match }) {
             <p>{comment.content}</p>
             {currentUser && comment.userId === currentUser.id && (
               <div className="deleteBtn">
-                <button onClick={() => deleteComment(comment.id)}>
+                <button
+                  disabled={commentsSpinner}
+                  onClick={() => deleteComment(comment.id)}
+                >
                   Delete
                 </button>
               </div>
@@ -201,15 +204,22 @@ function RecipePage({ match }) {
   };
 
   const deleteComment = async (id) => {
+    setCommentsSpinner(true);
     const recipeInterRef = doc(db, "recipieInteracts", recipe.id);
-    const recipeData = await getDoc(recipeInterRef);
-    const newComments = [...recipeData.data().comments].filter((comment) => {
-      return comment.id !== id;
-    });
-    await updateDoc(recipeInterRef, {
-      comments: newComments,
-    });
-    setComments(newComments.reverse());
+    try {
+      const recipeData = await getDoc(recipeInterRef);
+      const newComments = [...recipeData.data().comments].filter((comment) => {
+        return comment.id !== id;
+      });
+      await updateDoc(recipeInterRef, {
+        comments: newComments,
+      });
+      setComments(newComments.reverse());
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setCommentsSpinner(false);
+    }
   };
 
   const addComment = async () => {

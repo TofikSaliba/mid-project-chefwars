@@ -1,4 +1,4 @@
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState } from "react";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 import RecipeSearch from "../../Components/RecipeSearch/RecipeSearch";
 import { db } from "../../services/firebase";
@@ -34,6 +34,7 @@ function Recipies({ match, history }) {
       }
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getUserRecipe = async () => {

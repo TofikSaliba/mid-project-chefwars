@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { MdRemoveCircleOutline } from "react-icons/md";
 import { db } from "../../services/firebase";
-import { collection, getDoc, setDoc, doc } from "firebase/firestore";
+import { getDoc, setDoc, doc } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -69,6 +69,7 @@ function AddRecipe({ match }) {
       };
       getData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getLeftInputs = () => {

@@ -18,6 +18,7 @@ function Select({ onSelectChange, optionsArr, defaultVal, disabled, id }) {
       );
     });
     setOptions(optionsJSX);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

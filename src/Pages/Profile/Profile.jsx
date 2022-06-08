@@ -5,11 +5,8 @@ import {
   getDoc,
   getDocs,
   deleteDoc,
-  setDoc,
   doc,
   collection,
-  updateDoc,
-  arrayUnion,
 } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
@@ -45,6 +42,7 @@ function Profile({ match }) {
       }
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.id]);
 
   useEffect(() => {
@@ -66,6 +64,7 @@ function Profile({ match }) {
       }
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.params.id]);
 
   const getRank = () => {

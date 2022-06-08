@@ -46,6 +46,7 @@ function RecipePage({ match }) {
       }
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -68,6 +69,7 @@ function RecipePage({ match }) {
       };
       getData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipe, currentUser]);
 
   const getUserPoints = async () => {

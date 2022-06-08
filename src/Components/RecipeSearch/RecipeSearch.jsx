@@ -100,25 +100,27 @@ function RecipeSearch({
     <div className="searchBar">
       <div className="radio">
         <span>Search by: </span>
-        <div>
-          <label htmlFor="term">Term </label>
-          <input
-            onChange={(e) => setSearchType(true)}
-            id="term"
-            type="radio"
-            name="type"
-            defaultChecked={searchRadio}
-          />
-        </div>
-        <div>
-          <label htmlFor="first"> Recipe first letter </label>
-          <input
-            onChange={(e) => setSearchType(false)}
-            id="first"
-            type="radio"
-            name="type"
-            defaultChecked={!searchRadio}
-          />
+        <div className="radioWraper">
+          <div>
+            <label htmlFor="term">Term </label>
+            <input
+              onChange={(e) => setSearchType(true)}
+              id="term"
+              type="radio"
+              name="type"
+              defaultChecked={searchRadio}
+            />
+          </div>
+          <div>
+            <label htmlFor="first"> Recipe first letter </label>
+            <input
+              onChange={(e) => setSearchType(false)}
+              id="first"
+              type="radio"
+              name="type"
+              defaultChecked={!searchRadio}
+            />
+          </div>
         </div>
       </div>
       <form onSubmit={handleSubmit}>

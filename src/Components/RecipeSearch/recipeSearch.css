@@ -15,6 +15,11 @@
   gap: 1rem;
 }
 
+.radioWraper {
+  display: flex;
+  gap: 1rem;
+}
+
 .searchBar .radio input,
 .searchBar .radio label {
   cursor: pointer;
@@ -60,14 +65,18 @@
   border-radius: 4px;
 }
 
+@media (max-width: 520px) {
+  .searchBar form {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
 @media (max-width: 360px) {
   .searchBar .radio {
     flex-direction: column;
     gap: 0.3rem;
   }
-
-  .searchBar form {
-    flex-direction: column;
-    gap: 1rem;
+  .searchBar .radio span {
+    text-align: center;
   }
 }

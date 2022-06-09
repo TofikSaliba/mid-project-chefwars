@@ -1,12 +1,36 @@
-# Chef Wars!
+# Chef Wars! AppleSeeds Mid Project
 
-## is a website for food recipies, 1 option is to get them from API..
+## Description
+I created this website, out of adoration for CodeWars, where as a junior developer im having so much fun there!
+since i love cooking, and in the lasdt period we got to stay alot at home... i choose Chefwars a website for food recipies as my project, 1 option is to get them from API..the other is from users that can add recipies, get rated and climb in level. which is the competetive part, compared to codeWars.
 
-## the other from users that can add recipies, get rated and climb in level.
 
-## API, CRUD , ROUTING, Google Login, useState, useContext, useEffect and more ..
+## Technologies:
+- react
+- css
+- Firebase: Google Authentication & Firestore database
 
-### AppleSeeds Mid Project
+
+## Implementations used
+- API
+- CRUD
+- ROUTING
+- useState, useContext, useEffect
+- Google Login
+
+# others
+- Lottie package for animations
+
+## Future Plans
+- adding favorite recipies to users
+- refactoring code to use styled components and SASS
+- Editing comments option, and option to reply to comments
+- adding images and videos by uploading files and not via links only
+- top 5 recipies in the home page
+- adding more search and filtering options
+- more login options, such as facebook, twitter etc...
+- users DMs
+
 
 ### Developer: Tofik Saliba
 

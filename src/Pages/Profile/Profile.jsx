@@ -174,7 +174,7 @@ function Profile({ match }) {
 
   return (
     <div className="profileContainer">
-      {getUserJSX()}
+      <div className="userLeft">{getUserJSX()}</div>
       <div className="myKitchen">
         <h1>{user && getKitchenHeader()}</h1>
         {currentUser && user && currentUser.id === user.id && (

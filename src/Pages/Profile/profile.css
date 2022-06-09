@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: sticky;
+  top: 50px;
 }
 
 .UserInfo span {
@@ -101,6 +103,11 @@
 @media (max-width: 650px) {
   .profileContainer {
     grid-template-columns: 1fr;
+  }
+
+  .UserInfo {
+    position: relative;
+    top: unset;
   }
 
   .UserInfo img {

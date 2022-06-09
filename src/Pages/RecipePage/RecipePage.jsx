@@ -186,7 +186,9 @@ function RecipePage({ match }) {
             <NavLink to={`/Profile/${comment.userId}`}>
               <span>{comment.userName}</span>
             </NavLink>
-            <img src={comment.userImg} alt={comment.userName} />
+            <NavLink to={`/Profile/${comment.userId}`}>
+              <img src={comment.userImg} alt={comment.userName} />
+            </NavLink>
           </div>
           <div className="rightComment">
             <span className="time">{comment.time}</span>

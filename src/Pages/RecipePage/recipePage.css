@@ -85,6 +85,10 @@ h2 {
   width: 100%;
   gap: 2rem;
   max-width: 1000px;
+  background: var(--clr-card2);
+  padding: 1rem;
+  border-radius: 20px;
+  color: #fff;
 }
 
 .singleComment .leftComment {
@@ -99,7 +103,8 @@ h2 {
 
 .singleComment .leftComment a {
   text-decoration: none;
-  color: var(--clr-nav);
+  color: #111;
+  font-weight: bold;
 }
 
 .singleComment .leftComment img {

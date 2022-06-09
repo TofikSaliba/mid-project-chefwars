@@ -71,9 +71,23 @@ function AddRecipe({ match }) {
         }
       };
       getData();
+    } else {
+      setLeftInput({
+        name: "",
+        img: "",
+        category: "",
+        area: "",
+        video: "",
+      });
+      setInstructions("");
+      setIngredients([
+        { name: "", measure: "" },
+        { name: "", measure: "" },
+      ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log(match.params);
+  }, [match.params.editing]);
 
   const getLeftInputs = () => {
     return leftInputsData.map(({ name, type, holder, required }, idx) => {

@@ -53,7 +53,6 @@
 }
 
 .confirmDelete .innerConfrim {
-  opacity: 0.9;
   background: var(--clr-nav);
   width: 300px;
   align-self: center;

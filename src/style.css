@@ -1,7 +1,7 @@
 :root {
   --clr-nav: #0f7173;
   /* --clr-buttons2: #f05d5e; */
-  --clr-buttons3: #ea3546;
+  --clr-buttons3: rgb(216, 165, 27);
   --clr-buttons2: #3a2d2d;
   --clr-card2: #65524d;
   --clr-light: #e7ecef;
@@ -83,7 +83,7 @@ html {
 
 button {
   cursor: pointer;
-  padding: 0.3rem 1rem;
+  padding: 1rem 1rem;
   border-radius: 10px;
   border: none;
   font-size: clamp(1.4rem, 3vw, 2rem);

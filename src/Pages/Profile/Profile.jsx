@@ -86,8 +86,12 @@ function Profile({ match }) {
     if (!user) return;
     return (
       <div className="UserInfo">
-        <h4>{`Rank: ${getRank(user)}, Pts:${user.points}`}</h4>
         <h2>{user.displayName}</h2>
+        <h4>
+          Rank: <span>{getRank(user)}</span>, Pts:
+          <span>{user.points}</span>
+        </h4>
+
         <img src={user.img} alt={user.displayName} />
         {user.location && <div>Location: {user.location}</div>}
         {user.age && <div>Age: {user.age}</div>}
@@ -124,9 +128,13 @@ function Profile({ match }) {
               <FaRegTrashAlt
                 onClick={() => deleteRecipe(idx, recipe.id)}
                 className="react-icon"
+                color="rgb(235, 201, 110)"
               />
               <NavLink to={`/Add-Edit-Recipe/${recipe.id}`}>
-                <MdModeEditOutline color="black" className="react-icon" />
+                <MdModeEditOutline
+                  color="rgb(235, 201, 110)"
+                  className="react-icon"
+                />
               </NavLink>
             </>
           )}

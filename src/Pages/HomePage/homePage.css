@@ -6,10 +6,17 @@
   padding: 2rem 0;
   width: 50%;
 }
+
+.topAndLoginContainer .welcomeUser,
 .topAndLoginContainer .joinUs {
-  margin-bottom: 10rem;
-  margin-top: 4rem;
+  margin-bottom: 20rem;
   text-align: center;
+}
+
+.topAndLoginContainer .welcomeUser {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .topAndLoginContainer .joinUs p {
@@ -74,10 +81,21 @@
   justify-content: space-around;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 1050px) {
+  .topAndLoginContainer .joinUs,
+  .topAndLoginContainer .welcomeUser {
+    margin-bottom: 12rem;
+  }
+}
+@media (max-width: 870px) {
   .topAndLoginContainer {
     width: 80%;
   }
+  .topAndLoginContainer .joinUs,
+  .topAndLoginContainer .welcomeUser {
+    margin-top: 5rem;
+  }
+
   .recipeOfTheDay {
     width: 80%;
   }

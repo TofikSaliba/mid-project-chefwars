@@ -117,6 +117,18 @@ function HomePage() {
               </NavLink>
             </div>
           )}
+          {currentUser && (
+            <div className="welcomeUser">
+              <h2>Welcome {currentUser.displayName}!</h2>
+              <p>
+                Checkout our latest recipies, make sure you dont miss any!
+                Yummy!
+              </p>
+              <NavLink to="/Recipies/a">
+                <button>Recipies</button>
+              </NavLink>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import about from "../../assets/images/About.jpg";
-import aboutSmall from "../../assets/images/aboutSmall.jpg";
+import aboutSmall from "../../assets/images/aboutSmall.jpeg";
 import { NavLink } from "react-router-dom";
 import "./about.css";
 

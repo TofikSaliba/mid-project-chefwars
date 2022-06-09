@@ -5,14 +5,21 @@
 
 .UserInfo {
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
+.UserInfo span {
+  color: var(--clr-buttons3);
+}
 .UserInfo h2 {
-  text-align: left;
+  text-align: center;
 }
 
 .UserInfo img {
-  width: 300px;
+  width: 400px;
+  border-radius: 30px;
 }
 
 .myKitchen {
@@ -77,6 +84,14 @@
 
 .editOption {
   margin-top: 3rem;
+  border: 1px solid #111;
+  width: max-content;
+  border-radius: 4px;
+  padding: 0.3rem;
+}
+
+.editOption:hover {
+  transform: rotate(-10deg);
 }
 
 .editOption a {
@@ -87,6 +102,20 @@
 @media (max-width: 650px) {
   .profileContainer {
     grid-template-columns: 1fr;
+  }
+
+  .UserInfo img {
+    width: 90%;
+    align-self: center;
+  }
+
+  .UserInfo .editOption {
+    align-self: center;
+    margin-bottom: 3rem;
+  }
+
+  .myKitchen {
+    margin-bottom: 4rem;
   }
 
   .confirmDelete .innerConfrim {
@@ -101,5 +130,11 @@
   .UserInfo,
   .UserInfo h2 {
     text-align: center;
+  }
+}
+
+@media (max-width: 650px) {
+  .userRecipeContainer {
+    grid-template-columns: repeat(auto-fill, 280px);
   }
 }

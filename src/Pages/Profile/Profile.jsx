@@ -12,6 +12,7 @@ import { NavLink } from "react-router-dom";
 import RecipeCard from "../../Components/RecipeCard/RecipeCard";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
+import { GiTrophyCup } from "react-icons/gi";
 
 import "./profile.css";
 
@@ -92,7 +93,8 @@ function Profile({ match }) {
         <h2>{user.displayName}</h2>
         <h4>
           Rank: <span>{getRank(user)}</span>, Pts:
-          <span>{user.points}</span>
+          <span>{user.points} </span>
+          <GiTrophyCup />
         </h4>
 
         <img src={user.img} alt={user.displayName} />

@@ -10,4 +10,4 @@
 
 ### Developer: Tofik Saliba
 
-[Netlify Link](https://chefwars.netlify.app/)
+[Netlify Link](https://tofik-chefwars.netlify.app/)

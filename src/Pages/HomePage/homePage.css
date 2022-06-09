@@ -29,6 +29,10 @@
   gap: 1rem;
   width: 100%;
   font-size: clamp(1.3rem, 3vw, 2rem);
+  background: var(--clr-buttons3);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 .topUsers h2 {
@@ -73,6 +77,11 @@
   gap: 2rem;
   align-self: center;
   text-align: center;
+}
+
+.welcomeInto a {
+  width: max-content;
+  align-self: center;
 }
 
 .dayAndUsers {

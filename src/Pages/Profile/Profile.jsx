@@ -39,6 +39,9 @@ function Profile({ match }) {
   const { isSpinning, setIsSpinning } = useSpinner();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     const getData = async () => {
       try {
         setIsSpinning(true);

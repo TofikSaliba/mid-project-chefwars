@@ -41,6 +41,9 @@ function AddRecipe({ match }) {
   };
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     if (match.params.editing) {
       const getData = async () => {
         try {

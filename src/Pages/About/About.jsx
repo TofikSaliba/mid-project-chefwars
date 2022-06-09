@@ -2,8 +2,14 @@ import about from "../../assets/images/About.jpg";
 import aboutSmall from "../../assets/images/aboutSmall.jpeg";
 import { NavLink } from "react-router-dom";
 import "./about.css";
+import { useEffect } from "react";
 
 function About() {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
+  }, []);
   return (
     <div className="aboutPage">
       <img src={about} alt="about" />

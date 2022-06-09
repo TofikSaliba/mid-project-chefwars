@@ -15,6 +15,9 @@ function Recipies({ match, history }) {
   const { isSpinning, setIsSpinning } = useSpinner();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     const searchFor = match.params.letter.length > 1 ? "s" : "f";
     const getData = async () => {
       try {

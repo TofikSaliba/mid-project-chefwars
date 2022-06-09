@@ -152,12 +152,18 @@ h2 {
 .rightContainer .thumbsCont .innerThumbGood {
   display: flex;
   flex-direction: column;
+}
+
+.rightContainer .thumbsCont .innerThumbGood.green {
   color: green;
 }
 
 .rightContainer .thumbsCont .innerThumbBad {
   display: flex;
   flex-direction: column;
+}
+
+.rightContainer .thumbsCont .innerThumbBad.red {
   color: red;
 }
 

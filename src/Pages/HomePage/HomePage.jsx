@@ -14,6 +14,9 @@ function HomePage() {
   const { currentUser, setIsSpinning, isSpinning } = useAuth();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     const getData = async () => {
       try {
         setIsSpinning(true);

@@ -17,6 +17,9 @@ function EditProfile() {
   const { currentUser, setCurrentUser, isSpinning, setIsSpinning } = useAuth();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     setNewName(currentUser.displayName);
     setImageURL(currentUser.img);
     if (currentUser.location) {

@@ -21,6 +21,9 @@ function RecipePage({ match }) {
   const { isSpinning, setIsSpinning } = useSpinner();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
     const getData = async () => {
       try {
         setIsSpinning(true);
@@ -366,7 +369,11 @@ function RecipePage({ match }) {
               <div className="stickyRight">
                 <div>Vote to help others find whats good!</div>
                 <div className="thumbsCont">
-                  <div className="innerThumbBad">
+                  <div
+                    className={
+                      voteThumbs[0] ? "innerThumbBad red" : "innerThumbBad"
+                    }
+                  >
                     {votes.bad}
                     {currentUser && (
                       <div className="voteDownDiv" onClick={() => vote("bad")}>
@@ -378,11 +385,14 @@ function RecipePage({ match }) {
                       </div>
                     )}
                   </div>
-                  <div className="innerThumbGood">
+                  <div
+                    className={
+                      voteThumbs[1] ? "innerThumbGood green" : "innerThumbGood"
+                    }
+                  >
                     {votes.good}
                     {currentUser && (
                       <div className="voteUpDiv" onClick={() => vote("good")}>
-                        {" "}
                         {voteThumbs[1] ? (
                           <Fa.FaThumbsUp className="voteUp" />
                         ) : (

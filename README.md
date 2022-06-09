@@ -11,7 +11,7 @@ since i love cooking, and in the lasdt period we got to stay alot at home... i c
 - Firebase: Google Authentication & Firestore database
 
 
-## Implementation used
+## Implementations used
 - API
 - CRUD
 - ROUTING

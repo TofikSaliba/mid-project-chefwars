@@ -95,6 +95,9 @@ button {
   font-size: clamp(1.4rem, 3vw, 2rem);
   background: var(--clr-light2);
 }
+button:hover {
+  background: var(--clr-buttons3);
+}
 
 /** --------- scroll ----------- */
 

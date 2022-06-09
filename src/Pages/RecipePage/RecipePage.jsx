@@ -409,6 +409,16 @@ function RecipePage({ match }) {
                     Must <NavLink to="/Login">login</NavLink> to vote
                   </div>
                 )}
+                {recipe && recipe.userID && (
+                  <div>
+                    <NavLink
+                      className="moreFromUser"
+                      to={`/Profile/${recipe.userID}`}
+                    >
+                      Click for more recipies from this user
+                    </NavLink>
+                  </div>
+                )}
               </div>
             </div>
             <div className="leftContainer">{getRecipeMainData()}</div>

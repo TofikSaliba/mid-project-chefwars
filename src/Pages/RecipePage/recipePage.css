@@ -193,6 +193,15 @@ h2 {
   text-align: right;
 }
 
+.moreFromUser {
+  text-decoration: none;
+
+  color: #111;
+}
+.moreFromUser:hover {
+  color: var(--clr-nav);
+}
+
 @media (max-width: 1000px) {
   .recipeContainer {
     grid-template-columns: 2fr 1fr;

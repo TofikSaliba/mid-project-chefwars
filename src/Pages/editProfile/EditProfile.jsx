@@ -10,7 +10,7 @@ import { Redirect } from "react-router-dom";
 function EditProfile() {
   const [newName, setNewName] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [location, setLocation] = useState("");
+  const [from, setFrom] = useState("");
   const [age, setAge] = useState("");
   const [userBio, setUserBio] = useState("");
   const [redirect, setRedicrect] = useState(false);
@@ -22,8 +22,8 @@ function EditProfile() {
     });
     setNewName(currentUser.displayName);
     setImageURL(currentUser.img);
-    if (currentUser.location) {
-      setLocation(currentUser.location);
+    if (currentUser.from) {
+      setFrom(currentUser.from);
     }
     if (currentUser.age) {
       setAge(currentUser.age);
@@ -40,7 +40,7 @@ function EditProfile() {
     const edits = {
       displayName: newName,
       img: imageURL,
-      location: location,
+      from: from,
       age: age,
       bio: userBio,
     };
@@ -81,8 +81,8 @@ function EditProfile() {
           required
         />
         <input
-          onChange={(e) => setLocation(e.target.value)}
-          value={location}
+          onChange={(e) => setFrom(e.target.value)}
+          value={from}
           type="text"
           placeholder="where are you from?"
         />

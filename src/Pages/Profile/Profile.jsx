@@ -98,7 +98,7 @@ function Profile({ match }) {
         </h4>
 
         <img src={user.img} alt={user.displayName} />
-        {user.location && <div>Location: {user.location}</div>}
+        {user.location && <div>From: {user.location}</div>}
         {user.age && <div>Age: {user.age}</div>}
         {user.bio && <p>Bio: {user.bio}</p>}
         {user.id === currentUser.id && (

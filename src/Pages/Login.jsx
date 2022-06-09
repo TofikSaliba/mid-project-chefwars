@@ -3,10 +3,10 @@ import { useAuth } from "../contexts/AuthContext";
 import google from "../assets/images/googleLog.png";
 
 function Login() {
-  const { signInWithGoogle, currentUser } = useAuth();
+  const { signInWithGoogle, currentUser, isSpinning } = useAuth();
 
-  const login = () => {
-    signInWithGoogle();
+  const login = async () => {
+    await signInWithGoogle();
   };
 
   if (currentUser) {
@@ -15,9 +15,11 @@ function Login() {
 
   return (
     <div className="loginGoogle">
-      <div className="googleImg">
-        <img onClick={login} src={google} alt="login" />
-      </div>
+      {!isSpinning && (
+        <div className="googleImg">
+          <img onClick={login} src={google} alt="login" />
+        </div>
+      )}
     </div>
   );
 }

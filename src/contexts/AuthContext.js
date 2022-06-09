@@ -74,11 +74,16 @@ export function AuthProvider({ children }) {
 
   const signInWithGoogle = async () => {
     try {
+      setIsSpinning(true);
       const provider = new GoogleAuthProvider();
       const user = await signInWithPopup(auth, provider);
       setCurrentUserInfo(getAdditionalUserInfo(user));
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setTimeout(() => {
+        setIsSpinning(false);
+      }, 1000);
     }
   };
 

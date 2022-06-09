@@ -114,6 +114,7 @@ function Recipies({ match, history }) {
           name={recipe.name}
           type={`${recipe.area}, ${recipe.category}`}
           navLink={link}
+          user={recipe.userID ? recipe.userID : null}
         />
       );
     });

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ChefWars",
+  "name": "ChefWars, recipies and cooking",
   "icons": [
     {
       "src": "favicon.ico",

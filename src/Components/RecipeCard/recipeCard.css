@@ -20,6 +20,18 @@
   font-weight: bold;
 }
 
+.recipeCard .userDiv {
+  text-align: center;
+}
+.recipeCard .recipeCardUser {
+  text-decoration: none;
+  color: var(--clr-light2);
+}
+
+.recipeCard .recipeCardUser:hover {
+  color: var(--clr-buttons3);
+}
+
 .recipeCard img {
   width: 100%;
   height: 250px;

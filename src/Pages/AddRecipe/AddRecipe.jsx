@@ -144,9 +144,6 @@ function AddRecipe({ match }) {
           <span onClick={() => removeInput(idx)} className="addRemove">
             <MdRemoveCircleOutline />
           </span>
-          <span onClick={() => addInput()} className="addRemove">
-            <MdOutlineAddCircle />
-          </span>
         </div>
       );
     });
@@ -203,7 +200,12 @@ function AddRecipe({ match }) {
             />
           </div>
           <div className="addRight">
-            <h2>Ingredients</h2>
+            <h2>
+              Ingredients{" "}
+              <span onClick={() => addInput()} className="addRemove">
+                <MdOutlineAddCircle />
+              </span>
+            </h2>
             {getRightInputs()}
           </div>
         </div>

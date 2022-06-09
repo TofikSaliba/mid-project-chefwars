@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { db } from "../../services/firebase";
+import { addDoc, doc, collection } from "firebase/firestore";
 import "./contact.css";
 
 function Contact() {
@@ -14,13 +16,24 @@ function Contact() {
     });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setPopUp(true);
-    setTitle("");
-    setName("");
-    setEmail("");
-    setMessage("");
+    try {
+      await addDoc(collection(db, "contactMessages"), {
+        title: title,
+        name: name,
+        email: email,
+        message: message,
+      });
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setPopUp(true);
+      setTitle("");
+      setName("");
+      setEmail("");
+      setMessage("");
+    }
   };
 
   return (

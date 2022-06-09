@@ -6,7 +6,7 @@ since i love cooking, and in the lasdt period we got to stay alot at home... i c
 
 
 ## Technologies:
--react
+- react
 
 
 ## API, CRUD , ROUTING, Google Login, useState, useContext, useEffect and more ..

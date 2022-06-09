@@ -79,9 +79,21 @@
   margin-top: 2rem;
 }
 
+@media (max-width: 1000px) {
+  .popUp div {
+    max-width: 50%;
+  }
+}
+
 @media (max-width: 750px) {
   .contactContainer {
     grid-template-columns: 1fr;
     grid-row: 2fr 1fr;
+  }
+}
+
+@media (max-width: 450px) {
+  .popUp div {
+    max-width: 80%;
   }
 }

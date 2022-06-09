@@ -53,7 +53,7 @@ function About() {
         </div>
         <div className="contactUsContainer">
           <div className="contactUs">
-            If you have any questions don't hesitate ask! you are weclome to
+            If you have any questions don't hesitate to ask! you are weclome to
             contact us{" "}
             <NavLink to="/Contact">
               <button>Here</button>
